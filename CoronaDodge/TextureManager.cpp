@@ -8,15 +8,15 @@ TextureManager::TextureManager() {
 TextureManager::~TextureManager() {
 }
 
-TextureManager& TextureManager::Get()
+TextureManager* TextureManager::Get()
 {
 	if (!pTexMan)
 		pTexMan = new TextureManager();
-	return *pTexMan;
+	return pTexMan;
 }
 
 void TextureManager::addTexture(TextureID id, const char* filePath) {
-	if(textMap.find(id) == textMap.end()) {
+	if (textMap.find(id) == textMap.end()) {
 		textMap[id] = sf::Texture();
 		textMap[id].loadFromFile(filePath);
 	}

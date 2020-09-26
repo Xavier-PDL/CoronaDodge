@@ -1,15 +1,15 @@
 #pragma once
 #include <map>
 #include "SFMLBase.h"
+#include "Types.h"
 
-using TextureID = uint32_t;
 
 class TextureManager
 {
 	static TextureManager* pTexMan;
 	TextureManager();
 public:
-	static TextureManager& Get();
+	static TextureManager* Get();
 	
 	~TextureManager();
 
