@@ -7,7 +7,7 @@ constexpr auto moveSpeed = 150.0f;
 class Entity : public sf::Sprite
 {
 	sf::Vector2f velocity;
-	float timeToDie = 2.5f;
+	float timeToDie = 5.0f;
 public:
 	Entity();
 	Entity(TextureID texID);

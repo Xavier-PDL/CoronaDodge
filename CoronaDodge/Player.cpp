@@ -40,3 +40,8 @@ void Player::draw(sf::RenderWindow& wnd)
 		wnd.draw(playerSpray);
 	wnd.draw(*this);
 }
+
+void Player::die()
+{
+	isAlive = false;
+}

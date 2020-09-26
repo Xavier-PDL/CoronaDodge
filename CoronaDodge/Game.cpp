@@ -81,14 +81,13 @@ void Game::update(sf::Time dt)
 {
 	handleInput(dt);
 	world.update(dt);
+
 	// world.update(dt);
 	//updateAudio?
 }
 
 void Game::render(sf::RenderWindow& wnd)
 {
+	// ui
 	world.draw();
-	//wnd.draw(player);
-	if(isSpraying)
-		wnd.draw(playerSpray);
 }

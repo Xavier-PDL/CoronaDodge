@@ -1,5 +1,6 @@
 #include "EntityManager.h"
 
+
 void EntityManager::createEntity(EntType entityType, 
 	const sf::Vector2f& pos, const sf::Vector2f& velocity)
 {
@@ -18,11 +19,23 @@ void EntityManager::createEntity(EntType entityType,
 	}
 }
 
-void updateCallback(Node<Entity>* pNode, void* pDT)
+struct UpdateData
+{
+	sf::Time* pDT;
+	Player& player;
+};
+void updateCallback(Node<Entity>* pNode, void* pData)
 {
 	auto pEnt = pNode->pElement;
+	UpdateData* pUpdateData = reinterpret_cast<UpdateData*>(pData);
+	Player& player = pUpdateData->player;
 	pEnt->move(pEnt->getVelocity());
-	pEnt->updateTimeToDie(reinterpret_cast<sf::Time*>(pDT));
+	pEnt->updateTimeToDie(reinterpret_cast<sf::Time*>(pUpdateData->pDT));
+	// check for collision with player
+	if (pEnt->getGlobalBounds().intersects(pUpdateData->player.getGlobalBounds()))
+	{
+		player.die();
+	}
 }
 
 bool removeCallback(Node<Entity>* pNode)
@@ -33,9 +46,10 @@ bool removeCallback(Node<Entity>* pNode)
 	return false;
 }
 
-void EntityManager::update(sf::Time dt)
+void EntityManager::update(sf::Time dt, Player& player)
 {
-	entities.forEach(updateCallback, &dt);
+	UpdateData updateData = { &dt, player };
+	entities.forEach(updateCallback, &updateData);
 	entities.remove_if(removeCallback);
 }
 

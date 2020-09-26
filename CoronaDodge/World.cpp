@@ -88,7 +88,7 @@ int bOnce = false;
 void World::updateEntities(sf::Time dt) 
 {
 	spawnEntity(dt);
-	entities.update(dt);
+	entities.update(dt, player);
 }
 
 void World::draw()

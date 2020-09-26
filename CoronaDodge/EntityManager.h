@@ -2,6 +2,7 @@
 #include <vector>
 #include "Entity.h"
 #include "LinkedList.h"
+#include "Player.h"
 
 class EntityManager
 {
@@ -11,6 +12,6 @@ public:
 	void createEntity(EntType entityType, 
 		const sf::Vector2f& pos, const sf::Vector2f& velocity);
 	void draw(sf::RenderWindow& wnd);
-	void update(sf::Time dt);
+	void update(sf::Time dt, Player& player);
 };
 

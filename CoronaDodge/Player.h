@@ -3,6 +3,7 @@
 class Player : public Entity
 {
 	bool isSpraying;
+	bool isAlive = true;
 	sf::ConvexShape playerSpray;
 public:
 	Player();
@@ -10,5 +11,6 @@ public:
 	void checkWall(sf::Vector2f & deltaPos);
 	void updateSpray(float sprayAngle);
 	void draw(sf::RenderWindow& wnd);
+	void die();
 };
 
