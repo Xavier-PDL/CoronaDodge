@@ -8,10 +8,9 @@ class Entity : public sf::Sprite
 {
 	sf::Vector2f velocity;
 public:
+	Entity();
 	Entity(TextureID texID);
+	void applyTexture(TextureID texID);
 	sf::Vector2f getVelocity();
-	void putVelocity(sf::Vector2f v);
+	void setVelocity(sf::Vector2f v);
 };
-
-
-

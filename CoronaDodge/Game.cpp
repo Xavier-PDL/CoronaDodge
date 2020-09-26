@@ -21,21 +21,16 @@ void Game::load()
 	// sounds??
 
 	// initialize player?
-	player.setTexture(texMan->getTexture(TexID::PlayerNorth));
-	player.setColor(sf::Color::Blue);
-	auto pRect = player.getLocalBounds();
-	player.setOrigin(pRect.width / 2, pRect.height / 2);
-	auto wSize = wnd.getSize();
-	player.setPosition(wSize.x / 2, wSize.y / 2);
+
 
 	// initialize player spray
-	playerSpray.setPointCount(3);
+	/*playerSpray.setPointCount(3);
 	playerSpray.setPoint(0, {   0, 0 });
 	playerSpray.setPoint(1, { -25, -75 });
 	playerSpray.setPoint(2, {  25, -75 });
 	playerSpray.setPosition(player.getPosition());
-	playerSpray.setFillColor(sf::Color::Cyan);
-
+	playerSpray.setFillColor(sf::Color::Cyan);*/
+	world.setWindow(&wnd);
 	world.init();
 }
 
@@ -88,21 +83,15 @@ void Game::handleInput(sf::Time dt)
 	{
 		playerVel *= 0.75f;
 	}
-
-	player.move(playerVel * dt.asSeconds());
+	world.updatePlayerPos(playerVel * dt.asSeconds());
+	//player.move(playerVel * dt.asSeconds());
 }
 
 void Game::update(sf::Time dt)
 {
 	handleInput(dt);
-	auto mousePosI = sf::Mouse::getPosition(wnd);
-	sf::Vector2f mousePos = { (float)mousePosI.x, (float)mousePosI.y };
-	sf::Vector2f wSize = { (float)wnd.getSize().x / 2, (float)wnd.getSize().y / 2 };
-	auto dp = mousePos - wSize;
-	//dp /= sqrt((dp.x * dp.x) + (dp.y * dp.y));
-	auto sprayAngle = (atan2f(dp.y, dp.x) * 180 / 3.14) + 90.0f;
-	playerSpray.setRotation(sprayAngle);
-	isSpraying = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+	world.update(dt);
+
 	world.updateEntities();
 	// world.update(dt);
 	//updateAudio?
@@ -110,8 +99,8 @@ void Game::update(sf::Time dt)
 
 void Game::render(sf::RenderWindow& wnd)
 {
-	world.draw(wnd);
-	wnd.draw(player);
+	world.draw();
+	//wnd.draw(player);
 	if(isSpraying)
 		wnd.draw(playerSpray);
 }
