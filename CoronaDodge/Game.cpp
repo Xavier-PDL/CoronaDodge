@@ -20,16 +20,6 @@ void Game::load()
 
 	// sounds??
 
-	// initialize player?
-
-
-	// initialize player spray
-	/*playerSpray.setPointCount(3);
-	playerSpray.setPoint(0, {   0, 0 });
-	playerSpray.setPoint(1, { -25, -75 });
-	playerSpray.setPoint(2, {  25, -75 });
-	playerSpray.setPosition(player.getPosition());
-	playerSpray.setFillColor(sf::Color::Cyan);*/
 	world.setWindow(&wnd);
 	world.init();
 }
