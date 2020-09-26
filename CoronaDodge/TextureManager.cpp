@@ -1,10 +1,18 @@
 #include "TextureManager.h"
-#include <map>
+
+TextureManager* TextureManager::pTexMan = nullptr;
 
 TextureManager::TextureManager() {
 }
 
 TextureManager::~TextureManager() {
+}
+
+TextureManager& TextureManager::Get()
+{
+	if (!pTexMan)
+		pTexMan = new TextureManager();
+	return *pTexMan;
 }
 
 void TextureManager::addTexture(TextureID id, const char* filePath) {

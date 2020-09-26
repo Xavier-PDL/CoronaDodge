@@ -1,34 +1,20 @@
-#define SFML_STATIC
-#include <SFML/Graphics.hpp>
-#pragma comment(lib, "gdi32.lib")
-#pragma comment(lib, "winmm.lib")
-#pragma comment(lib, "opengl32.lib")
-#ifdef _DEBUG
-#pragma comment(lib, "sfml-system-s-d.lib")
-#pragma comment(lib, "sfml-window-s-d.lib")
-#pragma comment(lib, "sfml-graphics-s-d.lib")
-#else
-#pragma comment(lib, "sfml-system-s.lib")
-#pragma comment(lib, "sfml-window-s.lib")
-#pragma comment(lib, "sfml-graphics-s.lib")
-#endif
+#include "TextureManager.h"
 
-sf::Sprite player;
-sf::Sprite enemy1;
-sf::Sprite enemy2;
-sf::Texture playerTexture;
-sf::Texture enemyTexture;
 
 constexpr auto moveSpeed = 150.0f;
 
-void createEntities()
+void createEntities(sf::Sprite& player, sf::Sprite& enemy1, sf::Sprite& enemy2)
 {
-	playerTexture.loadFromFile("assets/player.bmp");
-	enemyTexture.loadFromFile("assets/enemy.bmp");
+	auto texMan = TextureManager::Get();
+	texMan.addTexture(0, "assets/player.bmp");
+	texMan.addTexture(1, "assets/enemy.bmp");
+	auto playerTexture = texMan.getTexture(0);
+	auto enemyTexture = texMan.getTexture(1);
 
 	player.setPosition({ 400, 300 });
 	player.setColor(sf::Color::Blue);
 	player.setTexture(playerTexture);
+	
 
 	enemy1.setColor(sf::Color::Red);
 	enemy1.setTexture(enemyTexture);
@@ -38,7 +24,7 @@ void createEntities()
 	enemy1.setPosition({ 65.0f, 155.0f });
 }
 
-void handleInput(sf::Time dt)
+void handleInput(sf::Time dt, sf::Sprite& player)
 {
 	sf::Vector2f playerVel;
 
@@ -70,7 +56,7 @@ void handleInput(sf::Time dt)
 	player.move(playerVel * dt.asSeconds());
 }
 
-void drawEntities(sf::RenderWindow& window)
+void drawEntities(sf::RenderWindow& window, sf::Sprite& player, sf::Sprite& enemy1, sf::Sprite& enemy2)
 {
 	window.draw(player);
 	window.draw(enemy1);
@@ -78,7 +64,7 @@ void drawEntities(sf::RenderWindow& window)
 }
 
 
-void updateEntities(float dt)
+void updateEntities(sf::Sprite & player, sf::Sprite & enemy1, float dt)
 {
 	auto dMove = moveSpeed * dt;
 	sf::Vector2f deltaPos = player.getPosition() - enemy1.getPosition();
@@ -88,9 +74,16 @@ void updateEntities(float dt)
 
 int main()
 {
+
+	sf::Sprite player;
+	sf::Sprite enemy1;
+	sf::Sprite enemy2;
+	sf::Texture playerTexture;
+	sf::Texture enemyTexture;
+
 	sf::Clock clock;
 	sf::RenderWindow window(sf::VideoMode(800, 600), "CoronaDodge!");
-	createEntities();
+	createEntities(player, enemy1, enemy2);
 	while (window.isOpen())
 	{
 		sf::Time dt = clock.restart();
@@ -101,10 +94,10 @@ int main()
 				window.close();
 		}
 
-		handleInput(dt);
+		handleInput(dt, player);
 		window.clear(sf::Color::White);
-		updateEntities(dt.asSeconds());
-		drawEntities(window);
+		updateEntities(player, enemy1, dt.asSeconds());
+		drawEntities(window, player, enemy1, enemy2);
 
 		window.display();
 	}
