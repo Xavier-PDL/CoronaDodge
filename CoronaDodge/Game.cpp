@@ -26,13 +26,21 @@ void Game::load()
 	auto wSize = wnd.getSize();
 	textLost.setPosition({ (float)wSize.x / 2, (float)wSize.y / 4 });
 	textLost.setFillColor(sf::Color::Green);
+	getHighScore();
+	//Score font
+	loadScoreFont();
+	textScore.setFont(fontScore);
+	textScore.setCharacterSize(40);
+	textScore.setFillColor(sf::Color::Black);
+	textScore.setPosition(800.f,750.f);
 	// item textures
 
 	// sounds??
-
+	
 	world.setWindow(&wnd);
 	world.init();
 }
+
 
 void Game::run()
 {
@@ -93,17 +101,68 @@ void Game::update(sf::Time dt)
 	auto player = world.getPlayer();
 	if (player.isAlive())
 	{
+		updateScore(dt);
 		world.update(dt);
+	}
+	else {
+		if (score > highScore) {
+			highScore = score;
+			writeHighScore();
+		}
 	}
 	// world.update(dt);
 	//updateAudio?
+	
 }
 
 void Game::render(sf::RenderWindow& wnd)
 {
 	// ui
+	
 	world.draw();
 	auto player = world.getPlayer();
-	if (!player.isAlive())
+	if (!player.isAlive()) {
 		wnd.draw(textLost);
+	}
+	drawScore(wnd);
+}
+
+void Game::loadScoreFont() {
+	if (!fontScore.loadFromFile("assets/score_font.ttf")) {
+		throw "Failed to load font.";
+	}
+}
+
+void Game::drawScore(sf::RenderWindow& wnd) {
+	textScore.setString("Score: " + std::to_string(score) + "\n" + "High Score: " + std::to_string(highScore));
+	wnd.draw(textScore);
+}
+
+void Game::updateScore(sf::Time dt) {
+	if (scoreCount <= 0) {
+		score += 5;
+		scoreCount = 3.f;
+	}
+	else
+		scoreCount -= dt.asSeconds();
+}
+
+void Game::getHighScore() {
+	std::ifstream infile;
+	infile.open("assets/high_score.txt");
+	if (!infile.is_open()) {
+		throw "Could not open file";
+	}
+	infile >> highScore;
+	infile.close();
+}
+
+void Game::writeHighScore() {
+	std::ofstream outfile;
+	outfile.open("assets/high_score.txt");
+	if (!outfile.is_open()) {
+		throw "Could not open file";
+	}
+	outfile << highScore;
+	outfile.close();
 }

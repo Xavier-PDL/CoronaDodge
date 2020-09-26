@@ -1,5 +1,6 @@
 #pragma once
 #include "World.h"
+#include <fstream>
 constexpr int WndWidth	= 1200;
 constexpr int WndHeight = 900;
 constexpr const char* WndTitle = "CoronaDodge!";
@@ -21,6 +22,12 @@ class Game
 	sf::Font someFont;
 	sf::Text textLost;
 	World world;
+	int score = 0;
+	int highScore;
+	float scoreCount = 3.f;
+	sf::Text textScore;
+	sf::Font fontScore;
+
 
 public:
 	Game();
@@ -30,4 +37,9 @@ private:
 	void handleInput(sf::Time dt);
 	void update(sf::Time dt);
 	void render(sf::RenderWindow& wnd);
+	void drawScore(sf::RenderWindow& wnd);
+	void loadScoreFont();
+	void updateScore(sf::Time dt);
+	void getHighScore();
+	void writeHighScore();
 };
