@@ -103,7 +103,7 @@ void Game::update(sf::Time dt)
 	auto sprayAngle = (atan2f(dp.y, dp.x) * 180 / 3.14) + 90.0f;
 	playerSpray.setRotation(sprayAngle);
 	isSpraying = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-	//updateEntities
+	world.updateEntities();
 	// world.update(dt);
 	//updateAudio?
 }

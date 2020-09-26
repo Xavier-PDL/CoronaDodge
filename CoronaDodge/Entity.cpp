@@ -3,6 +3,8 @@
 
 Entity::Entity(TextureID texID)
 {
+	sf::Vector2f v(.1f, .1f);
+	velocity = v;
 	auto texMan = TextureManager::Get();
 	setTexture(texMan->getTexture(texID));
 	setColor(sf::Color::Green);

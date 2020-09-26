@@ -14,5 +14,6 @@ public:
 	World();
 	void init();
 	void draw(sf::RenderWindow& wnd);
+	void updateEntities();
 };
 
