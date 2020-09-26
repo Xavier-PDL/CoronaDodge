@@ -4,8 +4,9 @@
 
 class EntityManager
 {
-	std::vector<Entity> vEntites;
+	
 public:
+	std::vector<Entity> vEntites;
 	void createEntity(EntType entityType);
 	void draw(sf::RenderWindow& wnd);
 	void update();

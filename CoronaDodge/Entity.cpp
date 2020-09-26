@@ -3,7 +3,7 @@
 
 Entity::Entity(TextureID texID)
 {
-	sf::Vector2f v(.1f, .1f);
+	sf::Vector2f v(.0f, .0f);
 	velocity = v;
 	auto texMan = TextureManager::Get();
 	setTexture(texMan->getTexture(texID));
