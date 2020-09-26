@@ -1,13 +1,18 @@
 #include "EntityManager.h"
 
-void EntityManager::createEntity(EntType entityType)
+void EntityManager::createEntity(EntType entityType, 
+	const sf::Vector2f& pos, const sf::Vector2f& velocity)
 {
 	switch (entityType)
 	{
 	case EntType::ET_Enemy:
-		entities.add(new Entity(TexID::Enemy));
-		//vEntites.push_back(Entity(TexID::Enemy));
+	{
+		auto pEnt = new Entity(TexID::Enemy);
+		pEnt->setPosition(pos);
+		pEnt->setVelocity(velocity);
+		entities.add(pEnt);
 		break;
+	}
 	default:
 		break;
 	}
@@ -22,11 +27,6 @@ void updateCallback(Node<Entity>* pNode, void*)
 void EntityManager::update()
 {
 	entities.forEach(updateCallback);
-
-	//for (auto& ent : vEntites)
-	//{
-	//	ent.move(ent.getVelocity());
-	//}
 }
 
 void drawCallback(Node<Entity>* pNode, void* pWnd)
@@ -38,9 +38,4 @@ void drawCallback(Node<Entity>* pNode, void* pWnd)
 void EntityManager::draw(sf::RenderWindow& wnd)
 {
 	entities.forEach(drawCallback, &wnd);
-
-	//for (auto& ent : vEntites)
-	//{
-	//	wnd.draw(ent);
-	//}
 }

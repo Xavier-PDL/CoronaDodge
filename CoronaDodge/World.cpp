@@ -27,50 +27,37 @@ void World::init()
 
 void World::spawnEntity(sf::Time dt) {
 	if (spawnVal <= 0) {
-		entities.createEntity(EntType::ET_Enemy);
-		sf::Vector2f location(0.f, 0.f);
 		float spawnAngle = (float)(rand() % 360);
 		float spawnX = cos(spawnAngle);
 		float spawnY = sin(spawnAngle);
-		location = { spawnX * 1200 + 600, spawnY * 900 + 450 };
-		int quad = rand() % 4;
-		entities.vEntites.back().setPosition(location);
+		sf::Vector2f entPos = { spawnX * 1200 + 600, spawnY * 900 + 450 };
 
-
-		if (covCount == 0) 
-    {  //shoot towards player
-			sf::Vector2f deltaPos = player.getPosition() - location;
-			deltaPos /= sqrt((deltaPos.x * deltaPos.x) + (deltaPos.y * deltaPos.y));
-
-			entities.vEntites.back().setVelocity(deltaPos*.1f);
+		sf::Vector2f velocity;
+		if (covCount == 0)
+		{  //shoot towards player
+			velocity = player.getPosition() - entPos;
 			covCount++;
 		}
 		else 
-    {
+		{
 			sf::Vector2f target(rand() % 800 + 200, rand() % 600 + 150);
-			sf::Vector2f deltaPos = target - location;
-			deltaPos /= sqrt((deltaPos.x * deltaPos.x) + (deltaPos.y * deltaPos.y));
-			entities.vEntites.back().setVelocity(deltaPos * .1f);
+			velocity = target - entPos;
 			covCount++;
 			if (covCount == 5)
 				covCount = 0;
 		}
-	}
-	else 
-  {
-
-		//.createEntity(EntType::ET_Enemy);
-
-		//entities.back().setVelocity(deltaPos);
+		velocity /= sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
+		entities.createEntity(EntType::ET_Enemy, entPos, velocity * 0.1f);
 		spawnVal = (float)((rand() % 15 + 5) / 10.);
 	}
-	else
-		spawnVal = spawnVal-dt.asSeconds();
+	else 
+	{
+		spawnVal = spawnVal - dt.asSeconds();
+	}
 }
 
 void World::updatePlayerPos(sf::Vector2f deltaPos)
 {
-//	player.move(deltaPos);
 	player.update(deltaPos);
 }
 
@@ -86,21 +73,16 @@ void World::initPlayer()
 }
 
 int bOnce = false;
-void World::updateEntities() {
-	if (!bOnce) 
-	{
-		spawnEntity();
-		bOnce = true;
-	}
+void World::updateEntities() 
+{
 	entities.update();
 }
 
-void World::draw(){
-
+void World::draw()
+{
 	auto wSize = pWnd->getSize();
 	arena.setPosition(float(wSize.x / 2), float(wSize.y / 2));
 	pWnd->draw(arena);
-	//pWnd->draw(player);
 	player.draw(*pWnd);
 	entities.draw(*pWnd);
 }
@@ -116,5 +98,4 @@ void World::update(sf::Time dt)
 	
 	auto sprayAngle = (atan2f(dp.y, dp.x) * 180.0f / 3.14f) + 90.0f;
 	player.updateSpray(sprayAngle);
-	//playerSpray.setRotation(sprayAngle);
 }
