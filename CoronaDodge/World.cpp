@@ -2,7 +2,7 @@
 
 World::World()
 	:
-	arena({800,600})
+	arena({ ArenaWidth,ArenaHeight })
 {
 	arena.setFillColor(sf::Color::White);
 	arena.setOutlineColor(sf::Color::Black);

@@ -2,8 +2,8 @@
 #include "TextureManager.h"
 #include "EntityManager.h"
 
-constexpr int ArenaWidth	= 800;
-constexpr int ArenaHeight	= 800;
+constexpr float ArenaWidth	= 800.0f;
+constexpr float ArenaHeight	= 600.0f;
 class World
 {
 	// play area

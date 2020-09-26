@@ -19,6 +19,8 @@ class Game
 	sf::Clock clock;
 	sf::RenderWindow wnd;
 	sf::Sprite player;
+	bool isSpraying;
+	sf::ConvexShape playerSpray;
 	World world;
 
 public:
