@@ -6,8 +6,12 @@ constexpr auto moveSpeed = 150.0f;
 
 class Entity : public sf::Sprite
 {
-	sf::Vector2f velocty;
+	sf::Vector2f velocity;
 public:
 	Entity(TextureID texID);
+	sf::Vector2f getVelocity();
+	void putVelocity(sf::Vector2f v);
 };
+
+
 
