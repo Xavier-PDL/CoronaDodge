@@ -13,6 +13,8 @@ class World
 	EntityManager entities;
 	Player player;
 	sf::RenderWindow* pWnd;
+	float spawnVal = 0;
+	int covCount = 0;
 
 public:
 	World();
@@ -21,7 +23,7 @@ public:
 	void draw();
 	void update(sf::Time dt);
 	void updateEntities();
-	void spawnEntity();
+	void spawnEntity(sf::Time dt);
 	void updatePlayerPos(sf::Vector2f deltaPos);
 
 private:

@@ -25,36 +25,47 @@ void World::init()
 	initPlayer();
 }
 
-void World::spawnEntity() {
-	entities.createEntity(EntType::ET_Enemy);
-	sf::Vector2f location(0.f, 0.f);
-	
-	float spawnAngle = (float)(rand() % 360);
-	float spawnX = cos(spawnAngle);
-	float spawnY = sin(spawnAngle);
-	//location = { spawnX * 1200 + 600, spawnY * 900 + 450 };
-	location = { 600, 450 };
-	int quad = rand() % 4;
+void World::spawnEntity(sf::Time dt) {
+	if (spawnVal <= 0) {
+		entities.createEntity(EntType::ET_Enemy);
+		sf::Vector2f location(0.f, 0.f);
+		float spawnAngle = (float)(rand() % 360);
+		float spawnX = cos(spawnAngle);
+		float spawnY = sin(spawnAngle);
+		location = { spawnX * 1200 + 600, spawnY * 900 + 450 };
+		int quad = rand() % 4;
+		entities.vEntites.back().setPosition(location);
 
-	//entities.vEntites.back().setPosition(location);
-	sf::Vector2f temp(300.f, 300.f); //REPLACE THIS WITH PLAYER LOCATION
 
-	if (1){  //shoot towards player
-			sf::Vector2f deltaPos = temp - location;
+		if (covCount == 0) 
+    {  //shoot towards player
+			sf::Vector2f deltaPos = player.getPosition() - location;
 			deltaPos /= sqrt((deltaPos.x * deltaPos.x) + (deltaPos.y * deltaPos.y));
-			//entities.vEntites.back().setVelocity(deltaPos);
-	}
-	else {
 
+			entities.vEntites.back().setVelocity(deltaPos*.1f);
+			covCount++;
+		}
+		else 
+    {
+			sf::Vector2f target(rand() % 800 + 200, rand() % 600 + 150);
+			sf::Vector2f deltaPos = target - location;
+			deltaPos /= sqrt((deltaPos.x * deltaPos.x) + (deltaPos.y * deltaPos.y));
+			entities.vEntites.back().setVelocity(deltaPos * .1f);
+			covCount++;
+			if (covCount == 5)
+				covCount = 0;
+		}
 	}
-	// else
-		//generate random x,y coord pair within arena
-		//sf::Vector2f deltaPos = (x,y) from above - enemy1.getPosition();
-		//deltaPos /= sqrt((deltaPos.x * deltaPos.x) + (deltaPos.y * deltaPos.y))
-	
-	//.createEntity(EntType::ET_Enemy);
-	
-	//entities.back().setVelocity(deltaPos);
+	else 
+  {
+
+		//.createEntity(EntType::ET_Enemy);
+
+		//entities.back().setVelocity(deltaPos);
+		spawnVal = (float)((rand() % 15 + 5) / 10.);
+	}
+	else
+		spawnVal = spawnVal-dt.asSeconds();
 }
 
 void World::updatePlayerPos(sf::Vector2f deltaPos)
@@ -96,7 +107,7 @@ void World::draw(){
 
 void World::update(sf::Time dt)
 {
-
+	spawnEntity(dt);
 	auto mousePosI = sf::Mouse::getPosition(*pWnd);
 	sf::Vector2f mousePos = { (float)mousePosI.x, (float)mousePosI.y };
 	auto wSize = pWnd->getSize();
