@@ -15,24 +15,11 @@ void Game::load()
 	// entity textures
 	texMan->addTexture(TexID::Enemy, TexFile::Enemy);
 	texMan->addTexture(TexID::PlayerNorth, TexFile::PlayerWest);
+	loadFonts();
 	
-	if (!someFont.loadFromFile("assets/main_font.ttf"))
-		printf("Failed to load font!!!");
-	textLost.setFont(someFont);
-	textLost.setString("Game Over!");
-	textLost.setCharacterSize(128);
-	auto textLocalBounds = textLost.getLocalBounds();
-	textLost.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
-	auto wSize = wnd.getSize();
-	textLost.setPosition({ (float)wSize.x / 2, (float)wSize.y / 4 });
-	textLost.setFillColor(sf::Color::Green);
 	getHighScore();
 	//Score font
-	loadScoreFont();
-	textScore.setFont(fontScore);
-	textScore.setCharacterSize(40);
-	textScore.setFillColor(sf::Color::Black);
-	textScore.setPosition(800.f,750.f);
+	
 	// item textures
 
 	// sounds??
@@ -41,6 +28,30 @@ void Game::load()
 	world.init();
 }
 
+void Game::loadFonts() {
+	auto wSize = wnd.getSize();
+
+	//Score font
+	if (!fontScore.loadFromFile("assets/score_font.ttf"))
+		throw "Failed to load font.";
+	textScore.setFont(fontScore);
+	textScore.setCharacterSize(40);
+	textScore.setFillColor(sf::Color::Black);
+	auto textLocalBounds = textScore.getLocalBounds();
+	textScore.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
+	textScore.setPosition((float)wSize.x*.65f, (float)wSize.y * .85f);
+
+	//Loss font
+	if (!someFont.loadFromFile("assets/main_font.ttf"))
+		printf("Failed to load font!!!");
+	textLost.setFont(someFont);
+	textLost.setString("Game Over!");
+	textLost.setCharacterSize(128);
+	textLocalBounds = textLost.getLocalBounds();
+	textLost.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
+	textLost.setPosition({ (float)wSize.x / 2, (float)wSize.y / 4 });
+	textLost.setFillColor(sf::Color::Green);
+}
 
 void Game::run()
 {
@@ -125,12 +136,6 @@ void Game::render(sf::RenderWindow& wnd)
 		wnd.draw(textLost);
 	}
 	drawScore(wnd);
-}
-
-void Game::loadScoreFont() {
-	if (!fontScore.loadFromFile("assets/score_font.ttf")) {
-		throw "Failed to load font.";
-	}
 }
 
 void Game::drawScore(sf::RenderWindow& wnd) {

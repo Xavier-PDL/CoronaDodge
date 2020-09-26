@@ -38,8 +38,8 @@ private:
 	void update(sf::Time dt);
 	void render(sf::RenderWindow& wnd);
 	void drawScore(sf::RenderWindow& wnd);
-	void loadScoreFont();
 	void updateScore(sf::Time dt);
 	void getHighScore();
 	void writeHighScore();
+	void loadFonts();
 };
