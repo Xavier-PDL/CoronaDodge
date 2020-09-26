@@ -11,8 +11,21 @@ Player::Player()
 
 void Player::update(sf::Vector2f deltaPos)
 {
+	checkWall(deltaPos);
 	this->move(deltaPos);
 	playerSpray.setPosition(getPosition());	
+}
+
+//hardcoded again..
+void Player::checkWall(sf::Vector2f &deltaPos) {
+	if (this->getPosition().x <= 200 + this->getLocalBounds().width / 2 && deltaPos.x < 0)
+		deltaPos.x = 0;
+	else if (this->getPosition().x >= 1000 - this->getLocalBounds().width / 2 && deltaPos.x > 0)
+		deltaPos.x = 0;
+	if (this->getPosition().y <= 150 + this->getLocalBounds().height / 2 && deltaPos.y < 0)
+		deltaPos.y = 0;
+	else if (this->getPosition().y >= 750 - this->getLocalBounds().height / 2 && deltaPos.y > 0)
+		deltaPos.y = 0;
 }
 
 void Player::updateSpray(float sprayAngle)
