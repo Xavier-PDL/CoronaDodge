@@ -24,7 +24,7 @@ public:
 	void update(sf::Time dt);
 	void spawnEntity(sf::Time dt);
 	void updatePlayerPos(sf::Vector2f deltaPos);
-
+	const Player& getPlayer();
 private:
 	void initPlayer();
 	void updatePlayer();

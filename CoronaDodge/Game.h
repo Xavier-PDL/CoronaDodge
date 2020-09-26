@@ -18,9 +18,8 @@ class Game
 	bool isRunning = true;
 	sf::Clock clock;
 	sf::RenderWindow wnd;
-	//sf::Sprite player;
-	//bool isSpraying;
-	sf::ConvexShape playerSpray;
+	sf::Font someFont;
+	sf::Text textLost;
 	World world;
 
 public:

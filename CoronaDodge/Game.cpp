@@ -15,7 +15,17 @@ void Game::load()
 	// entity textures
 	texMan->addTexture(TexID::Enemy, TexFile::Enemy);
 	texMan->addTexture(TexID::PlayerNorth, TexFile::PlayerWest);
-
+	
+	if (!someFont.loadFromFile("assets/main_font.ttf"))
+		printf("Failed to load font!!!");
+	textLost.setFont(someFont);
+	textLost.setString("Game Over!");
+	textLost.setCharacterSize(128);
+	auto textLocalBounds = textLost.getLocalBounds();
+	textLost.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
+	auto wSize = wnd.getSize();
+	textLost.setPosition({ (float)wSize.x / 2, (float)wSize.y / 4 });
+	textLost.setFillColor(sf::Color::Green);
 	// item textures
 
 	// sounds??
@@ -80,8 +90,11 @@ void Game::handleInput(sf::Time dt)
 void Game::update(sf::Time dt)
 {
 	handleInput(dt);
-	world.update(dt);
-
+	auto player = world.getPlayer();
+	if (player.isAlive())
+	{
+		world.update(dt);
+	}
 	// world.update(dt);
 	//updateAudio?
 }
@@ -90,4 +103,7 @@ void Game::render(sf::RenderWindow& wnd)
 {
 	// ui
 	world.draw();
+	auto player = world.getPlayer();
+	if (!player.isAlive())
+		wnd.draw(textLost);
 }

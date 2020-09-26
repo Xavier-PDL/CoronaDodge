@@ -61,6 +61,11 @@ void World::updatePlayerPos(sf::Vector2f deltaPos)
 	player.update(deltaPos);
 }
 
+const Player& World::getPlayer()
+{
+	return player;
+}
+
 void World::initPlayer()
 {
 	auto texMan = TextureManager::Get();
