@@ -15,8 +15,13 @@
 
 int main()
 {
+	sf::Sprite player;
+	sf::Texture playerTexture;
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Hello World!");
-
+	
+	playerTexture.loadFromFile("assets/player.bmp");
+	player.setColor(sf::Color::Blue);
+	player.setTexture(playerTexture);
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -25,7 +30,8 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-		window.clear(sf::Color(0xff, 0, 0xff, 0xff));
+		window.clear(sf::Color::White);
+		window.draw(player);
 		window.display();
 	}
 
