@@ -3,7 +3,7 @@
 class Player : public Entity
 {
 	bool isSpraying;
-	bool isAlive = true;
+	bool alive = true;
 	sf::ConvexShape playerSpray;
 public:
 	Player();
@@ -12,5 +12,6 @@ public:
 	void updateSpray(float sprayAngle);
 	void draw(sf::RenderWindow& wnd);
 	void die();
+	bool isAlive();
 };
 

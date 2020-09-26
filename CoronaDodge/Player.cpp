@@ -43,5 +43,10 @@ void Player::draw(sf::RenderWindow& wnd)
 
 void Player::die()
 {
-	isAlive = false;
+	alive = false;
+}
+
+bool Player::isAlive()
+{
+	return alive;
 }

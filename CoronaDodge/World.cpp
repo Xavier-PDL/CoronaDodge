@@ -40,7 +40,7 @@ void World::spawnEntity(sf::Time dt) {
 		}
 		else 
 		{
-			sf::Vector2f target(rand() % 800 + 200, rand() % 600 + 150);
+			sf::Vector2f target(float(rand() % 800 + 200), float(rand() % 600 + 150));
 			velocity = target - entPos;
 			covCount++;
 			if (covCount == 5)
