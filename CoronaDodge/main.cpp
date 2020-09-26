@@ -26,21 +26,16 @@ void createEntities()
 	playerTexture.loadFromFile("assets/player.bmp");
 	enemyTexture.loadFromFile("assets/enemy.bmp");
 
+	player.setPosition({ 400, 300 });
 	player.setColor(sf::Color::Blue);
 	player.setTexture(playerTexture);
+
 	enemy1.setColor(sf::Color::Red);
 	enemy1.setTexture(enemyTexture);
 	enemy1.setPosition({ 25.0f, 55.0f });
 	enemy2.setColor(sf::Color::Red);
 	enemy2.setTexture(enemyTexture);
 	enemy1.setPosition({ 65.0f, 155.0f });
-}
-
-void drawEntities(sf::RenderWindow& window)
-{
-	window.draw(player);
-	window.draw(enemy1);
-	window.draw(enemy2);
 }
 
 void handleInput(sf::Time dt)
@@ -75,9 +70,20 @@ void handleInput(sf::Time dt)
 	player.move(playerVel * dt.asSeconds());
 }
 
-void updateEntities(sf::Time dt)
+void drawEntities(sf::RenderWindow& window)
 {
-	// Todo
+	window.draw(player);
+	window.draw(enemy1);
+	window.draw(enemy2);
+}
+
+
+void updateEntities(float dt)
+{
+	auto dMove = moveSpeed * dt;
+	sf::Vector2f deltaPos = player.getPosition() - enemy1.getPosition();
+	deltaPos /= sqrt((deltaPos.x * deltaPos.x) + (deltaPos.y * deltaPos.y));
+	enemy1.move({ deltaPos.x * dMove, deltaPos.y * dMove });
 }
 
 int main()
@@ -97,7 +103,7 @@ int main()
 
 		handleInput(dt);
 		window.clear(sf::Color::White);
-
+		updateEntities(dt.asSeconds());
 		drawEntities(window);
 
 		window.display();
