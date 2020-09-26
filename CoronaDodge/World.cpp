@@ -14,7 +14,10 @@ World::World()
 void World::init()
 {
 	entities.createEntity(EntType::ET_Enemy);
-	entities.createEntity(EntType::ET_Enemy);
+}
+
+void World::updateEntities() {
+	entities.update();
 }
 
 void World::draw(sf::RenderWindow& wnd)

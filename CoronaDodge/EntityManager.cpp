@@ -12,6 +12,14 @@ void EntityManager::createEntity(EntType entityType)
 	}
 }
 
+void EntityManager::update()
+{
+	for (auto& ent : vEntites)
+	{
+		ent.move(ent.getVelocity());
+	}
+}
+
 void EntityManager::draw(sf::RenderWindow& wnd)
 {
 	for (auto& ent : vEntites)

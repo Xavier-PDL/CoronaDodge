@@ -8,5 +8,6 @@ class EntityManager
 public:
 	void createEntity(EntType entityType);
 	void draw(sf::RenderWindow& wnd);
+	void update();
 };
 
