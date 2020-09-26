@@ -36,6 +36,7 @@ void Player::updateSpray(float sprayAngle)
 
 void Player::draw(sf::RenderWindow& wnd)
 {
-	wnd.draw(playerSpray);
+	if(isSpraying)
+		wnd.draw(playerSpray);
 	wnd.draw(*this);
 }

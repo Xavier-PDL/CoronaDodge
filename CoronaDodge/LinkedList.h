@@ -30,19 +30,19 @@ struct Node
 		}
 	}
 
-	void remove_if(CompareFunc<T> cf)
-	{
-		if (!cf(this))
-		{
-			pNext->remove_if(cf);
-		}
-		else
-		{
-			pPrev = pNext;
-			pNext = pPrev;
-			delete pElement;
-		}
-	}
+	//void remove_if(CompareFunc<T> cf)
+	//{
+	//	if (!cf(this))
+	//	{
+	//		pNext->remove_if(cf);
+	//	}
+	//	else
+	//	{
+	//		pPrev = pNext;
+	//		pNext = pPrev;
+	//		delete pElement;
+	//	}
+	//}
 
 	void forEach(ForEachCallback<T> callBack, void* pExtra)
 	{
@@ -75,9 +75,60 @@ public:
 		pHead->add(pElement);
 	}
 
-	void remove_if(CompareFunc<T> cf)
+	void remove(Node<T>** ppHead, Node<T>* pDelete)
 	{
-		pHead->remove_if(cf);
+		if (!*ppHead || !pDelete)
+			return;
+
+		if (*ppHead == pDelete)
+			*ppHead = pDelete->pNext;
+
+		if (pDelete->pNext)
+			pDelete->pNext->pPrev = pDelete->pPrev;
+
+		if (pDelete->pPrev)
+			pDelete->pPrev->pNext = pDelete->pNext;
+
+		delete pDelete;
+		return;
+	}
+
+	void remove_if(CompareFunc<T> checkRemove)
+	{
+		Node<T>* pNode = pHead;
+		while(pNode)
+		{
+			if (checkRemove(pNode))
+			{
+				remove(&pHead, pNode);
+				return;
+				//if (pNode->pNext)
+				//{
+				//	auto pDeleteMe = pNode;
+				//	pNode = pNode->pNext;
+				//	pNode->pPrev = pDeleteMe->pPrev;
+				//	delete pDeleteMe->pElement;
+				//	delete pDeleteMe;
+				//}
+				//else
+				//{
+				//	if (pNode == pHead)
+				//	{
+				//		delete pHead->pElement;
+				//		delete pHead;
+				//		pHead = nullptr;
+				//		return;
+				//	}
+				//	else
+				//	{
+				//		delete pNode->pElement;
+				//		delete pNode;
+				//		pNode = nullptr;
+				//	}
+				//}
+			}
+			pNode = pNode->pNext;
+		}
 	}
 
 	void forEach(ForEachCallback<T> callBack, void* pExtra = nullptr)

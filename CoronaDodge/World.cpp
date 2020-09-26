@@ -48,7 +48,7 @@ void World::spawnEntity(sf::Time dt) {
 		}
 		velocity /= sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
 		entities.createEntity(EntType::ET_Enemy, entPos, velocity * 0.1f);
-		spawnVal = (float)((rand() % 15 + 5) / 10.);
+		spawnVal = (float)((rand() % 1 + 5) / 10.);
 	}
 	else 
 	{
@@ -72,10 +72,23 @@ void World::initPlayer()
 	player.setPosition(float(wSize.x / 2), float(wSize.y / 2));
 }
 
-int bOnce = false;
-void World::updateEntities() 
+void World::updatePlayer()
 {
-	entities.update();
+	auto mousePosI = sf::Mouse::getPosition(*pWnd);
+	sf::Vector2f mousePos = { (float)mousePosI.x, (float)mousePosI.y };
+	auto wSize = pWnd->getSize();
+	sf::Vector2f wCenter = { (float)wSize.x / 2, (float)wSize.y / 2 };
+	auto dp = mousePos - wCenter;
+
+	auto sprayAngle = (atan2f(dp.y, dp.x) * 180.0f / 3.14f) + 90.0f;
+	player.updateSpray(sprayAngle);
+}
+
+int bOnce = false;
+void World::updateEntities(sf::Time dt) 
+{
+	spawnEntity(dt);
+	entities.update(dt);
 }
 
 void World::draw()
@@ -89,13 +102,6 @@ void World::draw()
 
 void World::update(sf::Time dt)
 {
-	spawnEntity(dt);
-	auto mousePosI = sf::Mouse::getPosition(*pWnd);
-	sf::Vector2f mousePos = { (float)mousePosI.x, (float)mousePosI.y };
-	auto wSize = pWnd->getSize();
-	sf::Vector2f wCenter = { (float)wSize.x / 2, (float)wSize.y / 2 };
-	auto dp = mousePos - wCenter;
-	
-	auto sprayAngle = (atan2f(dp.y, dp.x) * 180.0f / 3.14f) + 90.0f;
-	player.updateSpray(sprayAngle);
+	updatePlayer();
+	updateEntities(dt);
 }

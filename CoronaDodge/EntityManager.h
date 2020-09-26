@@ -11,6 +11,6 @@ public:
 	void createEntity(EntType entityType, 
 		const sf::Vector2f& pos, const sf::Vector2f& velocity);
 	void draw(sf::RenderWindow& wnd);
-	void update();
+	void update(sf::Time dt);
 };
 

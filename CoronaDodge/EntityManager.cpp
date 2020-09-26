@@ -18,15 +18,25 @@ void EntityManager::createEntity(EntType entityType,
 	}
 }
 
-void updateCallback(Node<Entity>* pNode, void*)
+void updateCallback(Node<Entity>* pNode, void* pDT)
 {
 	auto pEnt = pNode->pElement;
 	pEnt->move(pEnt->getVelocity());
+	pEnt->updateTimeToDie(reinterpret_cast<sf::Time*>(pDT));
 }
 
-void EntityManager::update()
+bool removeCallback(Node<Entity>* pNode)
 {
-	entities.forEach(updateCallback);
+	auto pEnt = pNode->pElement;
+	if(pEnt->getTimeToDie() <= 0)
+		return true;
+	return false;
+}
+
+void EntityManager::update(sf::Time dt)
+{
+	entities.forEach(updateCallback, &dt);
+	entities.remove_if(removeCallback);
 }
 
 void drawCallback(Node<Entity>* pNode, void* pWnd)

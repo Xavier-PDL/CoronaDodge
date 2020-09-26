@@ -22,11 +22,12 @@ public:
 	void init();
 	void draw();
 	void update(sf::Time dt);
-	void updateEntities();
 	void spawnEntity(sf::Time dt);
 	void updatePlayerPos(sf::Vector2f deltaPos);
 
 private:
 	void initPlayer();
+	void updatePlayer();
+	void updateEntities(sf::Time dt);
 };
 

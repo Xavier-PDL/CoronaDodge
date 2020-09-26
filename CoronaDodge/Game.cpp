@@ -81,8 +81,6 @@ void Game::update(sf::Time dt)
 {
 	handleInput(dt);
 	world.update(dt);
-
-	world.updateEntities();
 	// world.update(dt);
 	//updateAudio?
 }

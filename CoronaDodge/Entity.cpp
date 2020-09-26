@@ -26,3 +26,13 @@ sf::Vector2f Entity::getVelocity() {
 void Entity::setVelocity(sf::Vector2f v) {
 	velocity = v;
 }
+
+void Entity::updateTimeToDie(sf::Time* pDT)
+{
+	timeToDie -= pDT->asSeconds();
+}
+
+float Entity::getTimeToDie()
+{
+	return timeToDie;
+}
