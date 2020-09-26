@@ -26,6 +26,9 @@ void Game::load()
 	auto wSize = wnd.getSize();
 	textLost.setPosition({ (float)wSize.x / 2, (float)wSize.y / 4 });
 	textLost.setFillColor(sf::Color::Green);
+	textLost.setOutlineColor(sf::Color::Black);
+	textLost.setOutlineThickness(4.0f);
+
 	// item textures
 
 	// sounds??
