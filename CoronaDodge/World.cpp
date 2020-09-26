@@ -21,7 +21,7 @@ void World::setWindow(sf::RenderWindow* pWnd)
 
 void World::init()
 {
-	srand(time(0));
+	srand(unsigned int(time(0)));
 	initPlayer();
 }
 
@@ -36,13 +36,17 @@ void World::spawnEntity(sf::Time dt) {
 		int quad = rand() % 4;
 		entities.vEntites.back().setPosition(location);
 
-		if (covCount == 0) {  //shoot towards player
+
+		if (covCount == 0) 
+    {  //shoot towards player
 			sf::Vector2f deltaPos = player.getPosition() - location;
 			deltaPos /= sqrt((deltaPos.x * deltaPos.x) + (deltaPos.y * deltaPos.y));
+
 			entities.vEntites.back().setVelocity(deltaPos*.1f);
 			covCount++;
 		}
-		else {
+		else 
+    {
 			sf::Vector2f target(rand() % 800 + 200, rand() % 600 + 150);
 			sf::Vector2f deltaPos = target - location;
 			deltaPos /= sqrt((deltaPos.x * deltaPos.x) + (deltaPos.y * deltaPos.y));
@@ -51,10 +55,9 @@ void World::spawnEntity(sf::Time dt) {
 			if (covCount == 5)
 				covCount = 0;
 		}
-		// else
-			//generate random x,y coord pair within arena
-			//
-			//deltaPos /= sqrt((deltaPos.x * deltaPos.x) + (deltaPos.y * deltaPos.y))
+	}
+	else 
+  {
 
 		//.createEntity(EntType::ET_Enemy);
 
@@ -79,17 +82,23 @@ void World::initPlayer()
 	auto pRect = player.getLocalBounds();
 	player.setOrigin(pRect.width / 2, pRect.height / 2);
 	auto wSize = pWnd->getSize();
-	player.setPosition(wSize.x / 2, wSize.y / 2);
+	player.setPosition(float(wSize.x / 2), float(wSize.y / 2));
 }
 
+int bOnce = false;
 void World::updateEntities() {
+	if (!bOnce) 
+	{
+		spawnEntity();
+		bOnce = true;
+	}
 	entities.update();
 }
 
 void World::draw(){
 
 	auto wSize = pWnd->getSize();
-	arena.setPosition(wSize.x / 2, wSize.y / 2);
+	arena.setPosition(float(wSize.x / 2), float(wSize.y / 2));
 	pWnd->draw(arena);
 	//pWnd->draw(player);
 	player.draw(*pWnd);
