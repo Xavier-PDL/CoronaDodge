@@ -9,6 +9,7 @@ class EntityManager
 	static EntityManager* pEntMgr;
 	LinkedList<Entity> enemies;
 	LinkedList<Entity> streaks;
+	LinkedList<Entity> pickups;
 public:
 	//std::vector<Entity> vEntites;
 	static EntityManager* Get();

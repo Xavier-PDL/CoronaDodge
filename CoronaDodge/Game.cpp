@@ -14,7 +14,8 @@ void Game::load()
 	// entity textures
 	texMan->addTexture(TexID::Enemy, TexFile::Enemy);
 	texMan->addTexture(TexID::PlayerNorth, TexFile::PlayerWest);
-	
+	texMan->addTexture(TexID::PickupAmmo, TexFile::Ammo);
+
 	loadFonts();
 	getHighScore();
 	

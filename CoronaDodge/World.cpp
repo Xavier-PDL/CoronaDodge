@@ -69,6 +69,24 @@ void World::spawnEntity(sf::Time dt) {
 	}
 }
 
+void World::spawnItem(sf::Time dt)
+{
+	if (itemSpawnVal <= 0)
+	{
+		auto arenaBox = arena.getGlobalBounds();
+		float spawnX = float(rand() % (int)arenaBox.width + arenaBox.left);
+		float spawnY = float(rand() % (int)arenaBox.height + arenaBox.top);
+		EntityData eData;
+		eData.entityPos = { spawnX, spawnY };
+		entities->createEntity(EntType::ET_Ammo, eData);
+		itemSpawnVal = ItemSpawnTime;
+	}
+	else
+	{
+		itemSpawnVal -= dt.asSeconds();
+	}
+}
+
 void World::updatePlayerPos(sf::Vector2f deltaPos)
 {
 	player.update(deltaPos);
@@ -107,6 +125,7 @@ int bOnce = false;
 void World::updateEntities(sf::Time dt) 
 {
 	spawnEntity(dt);
+	spawnItem(dt);
 	entities->update(dt, player);
 }
 

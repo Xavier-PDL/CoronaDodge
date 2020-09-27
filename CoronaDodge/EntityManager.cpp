@@ -19,6 +19,7 @@ Entity* EntityManager::createEntity(EntType entityType, EntityData& entityData)
 		pEnt->setOrigin({ bbox.width / 2, bbox.height / 2 });
 		pEnt->setPosition(entityData.entityPos);
 		pEnt->setVelocity(entityData.velocity);
+		pEnt->setColor(sf::Color::Green);
 		enemies.add(pEnt);
 		return pEnt;
 		break;
@@ -30,6 +31,12 @@ Entity* EntityManager::createEntity(EntType entityType, EntityData& entityData)
 		pEnt->setTarget(entityData.pEnt);
 		streaks.add(pEnt);
 		break;
+	}
+	case EntType::ET_Ammo:
+	{
+		auto pEnt = new Entity(EntType::ET_Ammo, TexID::PickupAmmo);
+		pEnt->setPosition(entityData.entityPos);
+		pickups.add(pEnt);
 	}
 	default:
 		break;
@@ -106,6 +113,8 @@ void drawCallback(Node<Entity>* pNode, void* pWnd)
 		reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(pEnt->getVerts());
 	else if (pEnt->getType() == EntType::ET_Enemy)
 		reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(*pEnt);
+	else if (pEnt->getType() == EntType::ET_Ammo)
+		reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(*pEnt);
 		//reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(*pEnt->getStreak());
 }
 
@@ -113,4 +122,5 @@ void EntityManager::draw(sf::RenderWindow& wnd)
 {
 	streaks.forEach(drawCallback, &wnd);
 	enemies.forEach(drawCallback, &wnd);
+	pickups.forEach(drawCallback, &wnd);
 }

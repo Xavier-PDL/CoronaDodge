@@ -11,7 +11,7 @@ Entity::Entity(EntType entType, TextureID texID)
 {
 	auto texMan = TextureManager::Get();
 	setTexture(texMan->getTexture(texID));
-	setColor(sf::Color::Green);
+	//setColor(sf::Color::Green);
 	this->entType = entType;
 }
 

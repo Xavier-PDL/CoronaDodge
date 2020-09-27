@@ -4,7 +4,10 @@
 #include "Player.h"
 
 constexpr float ArenaWidth	= 800.0f;
-constexpr float ArenaHeight	= 600.0f;
+constexpr float ArenaHeight = 600.0f;
+
+constexpr float ItemSpawnTime = 15.0f;
+
 class World
 {
 	// play area
@@ -15,7 +18,7 @@ class World
 	sf::RenderWindow* pWnd;
 	float spawnVal = 0;
 	int covCount = 0;
-
+	float itemSpawnVal = ItemSpawnTime;
 public:
 	World();
 	void setWindow(sf::RenderWindow* pWnd);
@@ -24,6 +27,7 @@ public:
 	void update(sf::Time dt);
 	void reset();
 	void spawnEntity(sf::Time dt);
+	void spawnItem(sf::Time dt);
 	//EntityManager& getEntities();
 	void updatePlayerPos(sf::Vector2f deltaPos);
 	const Player& getPlayer();

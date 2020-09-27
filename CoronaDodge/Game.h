@@ -13,6 +13,7 @@ namespace TexFile
 	//const char* PlayerNorth = "assets/player.bmp";
 	//const char* PlayerSouth = "assets/player.bmp";
 	constexpr const char* Enemy = "assets/enemy.bmp";
+	constexpr const char* Ammo = "assets/ammo.png";
 }
 
 enum GameState
