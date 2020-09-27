@@ -52,7 +52,7 @@ void Game::load()
 void Game::loadSounds() {
 	deathSound.putType(SoundEffect);
 	deathSound.load("assets/cough.ogg");
-	deathSound.setVolume(60.f);
+	deathSound.setVolume(35.f);
 
 	spraySound.putType(SoundEffect);
 	spraySound.load("assets/spray.ogg");
@@ -137,6 +137,7 @@ void Game::run()
 				{
 					if (event.key.code == sf::Keyboard::Space)
 					{
+						deathSound.stop();
 						world.reset();
 						gameState.pop();
 						score = 0;
