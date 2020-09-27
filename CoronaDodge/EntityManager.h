@@ -18,5 +18,6 @@ public:
 	void update(sf::Time dt, Player& player);
 	void clear();
 	LinkedList<Entity>& getStreaks();
+	LinkedList<Entity>& getItems();
 };
 

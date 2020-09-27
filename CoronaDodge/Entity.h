@@ -22,6 +22,7 @@ class Entity : public sf::Sprite
 	sf::VertexArray streakVerts;
 	float timeToClean = 0.1f;
 	bool streakCleaned = false;
+	bool itemSpawned = true;
 public:
 	Entity(EntType entType);
 	Entity(EntType entType, TextureID texID);
@@ -41,4 +42,6 @@ public:
 	bool getCleaned();
 	void updateTimeToClean(sf::Time* pDT);
 	float getTimeToClean();
+	bool isItemSpawned();
+	void destroyItem();
 };

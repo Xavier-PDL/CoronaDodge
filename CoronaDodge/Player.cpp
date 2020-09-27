@@ -36,6 +36,7 @@ void Player::update(sf::Vector2f deltaPos)
 	checkWall(deltaPos);
 	checkStreaks(deltaPos);
 	sprayStreaks();
+	checkItems();
 	this->move(deltaPos);
 	playerSpray.setPosition(getPosition());	
 }
@@ -52,7 +53,7 @@ void Player::checkWall(sf::Vector2f &deltaPos) {
 		deltaPos.y = 0;
 }
 
-struct StreakCollision
+struct CollisionInfo
 {
 	bool bCollided;
 	sf::Vector2f* deltaPos;
@@ -87,33 +88,33 @@ double x = (B2*C1 - B1*C2)/det
 double y = (A1*C2 - A2*C1)/det
 }
 */
-sf::Vector2f LinesIntersect(sf::Vector2f i1, sf::Vector2f i2, sf::Vector2f j1, sf::Vector2f j2)
+//sf::Vector2f LinesIntersect(sf::Vector2f i1, sf::Vector2f i2, sf::Vector2f j1, sf::Vector2f j2)
+//{
+//	float A1 = i2.y - i1.y;
+//	float B1 = i1.x - i2.x;
+//	float C1 = A1 * i1.x + B1 * i1.y;
+//
+//	float A2 = j2.y - j1.y;
+//	float B2 = j1.x - j2.x;
+//	float C2 = A2 * j1.x + B2 * j1.y;
+//
+//	auto det = A1 * B2 - A2 * B1;
+//	if (det < 0.0000001)
+//	{
+//		return {0,0};
+//	}
+//	else
+//	{
+//		sf::Vector2f result;
+//		result.x = (B2 * C1 - B1 * C2) / det;
+//		result.y = (A1 * C2 - A1 * C1) / det;
+//		return result;
+//	}
+//}
+
+void checkCollisionStreak(Node<Entity>* pNode, void* pCollisionInfo)
 {
-	float A1 = i2.y - i1.y;
-	float B1 = i1.x - i2.x;
-	float C1 = A1 * i1.x + B1 * i1.y;
-
-	float A2 = j2.y - j1.y;
-	float B2 = j1.x - j2.x;
-	float C2 = A2 * j1.x + B2 * j1.y;
-
-	auto det = A1 * B2 - A2 * B1;
-	if (det < 0.0000001)
-	{
-		return {0,0};
-	}
-	else
-	{
-		sf::Vector2f result;
-		result.x = (B2 * C1 - B1 * C2) / det;
-		result.y = (A1 * C2 - A1 * C1) / det;
-		return result;
-	}
-}
-
-void checkCollision(Node<Entity>* pNode, void* pCollisionInfo)
-{
-	auto pInfo = reinterpret_cast<StreakCollision*>(pCollisionInfo);
+	auto pInfo = reinterpret_cast<CollisionInfo*>(pCollisionInfo);
 	if (pInfo->bCollided)
 		return;
 	auto pPlayer = pInfo->player;
@@ -168,7 +169,7 @@ void checkCollision(Node<Entity>* pNode, void* pCollisionInfo)
 
 void checkCollisionSpray(Node<Entity>* pNode, void* pCollisionInfo)
 {
-	auto pInfo = reinterpret_cast<StreakCollision*>(pCollisionInfo);
+	auto pInfo = reinterpret_cast<CollisionInfo*>(pCollisionInfo);
 	auto pPlayer = pInfo->player;
 	if (!pPlayer->getSprayStatus())
 		return;
@@ -214,11 +215,11 @@ void Player::checkStreaks(sf::Vector2f& deltaPos)
 {
 	auto pEnts = EntityManager::Get();
 	auto streaks = pEnts->getStreaks();
-	StreakCollision sc;
+	CollisionInfo sc;
 	sc.bCollided = false;
 	sc.deltaPos = &deltaPos;
 	sc.player = this;
-	streaks.forEach(checkCollision, &sc);
+	streaks.forEach(checkCollisionStreak, &sc);
 	if (sc.bCollided)
 		this->die();
 }
@@ -227,10 +228,39 @@ void Player::sprayStreaks()
 {
 	auto pEnts = EntityManager::Get();
 	auto streaks = pEnts->getStreaks();
-	StreakCollision sc;
+	CollisionInfo sc;
 	sc.bCollided = false;
 	sc.player = this;
 	streaks.forEach(checkCollisionSpray, &sc);
+}
+
+
+void checkCollisionItems(Node<Entity>* pNode, void* pCollisionInfo)
+{
+	auto pInfo = reinterpret_cast<CollisionInfo*>(pCollisionInfo);
+	auto pItem = pNode->pElement;
+	auto pPlayer = pInfo->player;
+	auto playerBox = pPlayer->getGlobalBounds();
+	if (playerBox.intersects(pItem->getGlobalBounds()))
+	{
+		pItem->destroyItem();
+		pInfo->bCollided = true;
+		return;
+	}
+}
+
+void Player::checkItems()
+{
+	auto pEnts = EntityManager::Get();
+	auto items = pEnts->getItems();
+	CollisionInfo ci;
+	ci.bCollided = false;
+	ci.player = this;
+	items.forEach(checkCollisionItems, &ci);
+	if (ci.bCollided)
+	{
+		// picked up ammo
+	}
 }
 
 void Player::updateSpray(float sprayAngle)

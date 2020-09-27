@@ -83,6 +83,8 @@ bool removeCallback(Node<Entity>* pNode)
 		return true;
 	if (pEnt->getType() == ET_Streak && pEnt->getTimeToClean() <= 0)
 		return true;
+	if (pEnt->getType() == ET_Ammo && !pEnt->isItemSpawned())
+		return true;
 	return false;
 }
 
@@ -93,6 +95,7 @@ void EntityManager::update(sf::Time dt, Player& player)
 	enemies.remove_if(removeCallback);
 	streaks.forEach(updateCallback, &updateData);
 	streaks.remove_if(removeCallback);
+	pickups.remove_if(removeCallback);
 }
 
 void EntityManager::clear()
@@ -104,6 +107,11 @@ void EntityManager::clear()
 LinkedList<Entity>& EntityManager::getStreaks()
 {
 	return streaks;
+}
+
+LinkedList<Entity>& EntityManager::getItems()
+{
+	return pickups;
 }
 
 void drawCallback(Node<Entity>* pNode, void* pWnd)

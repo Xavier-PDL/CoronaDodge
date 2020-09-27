@@ -105,3 +105,13 @@ float Entity::getTimeToClean()
 {
 	return timeToClean;
 }
+
+bool Entity::isItemSpawned()
+{
+	return itemSpawned;
+}
+
+void Entity::destroyItem()
+{
+	itemSpawned = false;
+}

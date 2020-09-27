@@ -16,6 +16,7 @@ public:
 	void checkWall(sf::Vector2f& deltaPos);
 	void checkStreaks(sf::Vector2f& deltaPos);
 	void sprayStreaks();
+	void checkItems();
 	void updateSpray(float sprayAngle);
 	void draw(sf::RenderWindow& wnd);
 	void die();
