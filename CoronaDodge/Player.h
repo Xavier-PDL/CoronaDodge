@@ -26,7 +26,6 @@ public:
 	bool getSprayStatus();
 	sf::ConvexShape& getSpray();
 	int getAmmoCount();
-	void updateTimeToShoot(float dt);
 	float getTimeToShoot();
 };
 

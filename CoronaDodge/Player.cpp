@@ -25,6 +25,7 @@ Player::Player()
 void Player::reset(sf::RenderWindow* pWnd)
 {
 	alive = true;
+	sprayShots = 4;
 	auto wSize = pWnd->getSize();
 	wSize.x /= 2;
 	wSize.y /= 2;
@@ -259,7 +260,7 @@ void Player::checkItems()
 	items.forEach(checkCollisionItems, &ci);
 	if (ci.bCollided)
 	{
-		// picked up ammo
+		sprayShots = 4;
 	}
 }
 
@@ -320,11 +321,6 @@ sf::ConvexShape& Player::getSpray()
 int Player::getAmmoCount()
 {
 	return sprayShots;
-}
-
-void Player::updateTimeToShoot(float dt)
-{
-
 }
 
 float Player::getTimeToShoot()

@@ -101,7 +101,7 @@ void World::initPlayer()
 {
 	auto texMan = TextureManager::Get();
 	player.setTexture(texMan->getTexture(TexID::PlayerNorth));
-	player.setColor(sf::Color::Blue);
+	//player.setColor(sf::Color::Blue);
 	auto pRect = player.getLocalBounds();
 	player.setOrigin(pRect.width / 2, pRect.height / 2);
 	auto wSize = pWnd->getSize();

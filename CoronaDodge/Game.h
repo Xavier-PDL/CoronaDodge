@@ -10,13 +10,14 @@ constexpr const char* WndTitle = "CoronaDodge!";
 
 namespace TexFile
 {
-	constexpr const char* PlayerWest = "assets/player.bmp";
+	constexpr const char* PlayerWest = "assets/front.png";
+	//constexpr const char* PlayerWest = "assets/player.bmp";
 	//const char* PlayerEast = "assets/player.bmp";
 	//const char* PlayerNorth = "assets/player.bmp";
 	//const char* PlayerSouth = "assets/player.bmp";
-	constexpr const char* Enemy = "assets/enemy.bmp";
 	constexpr const char* Ammo = "assets/ammo.png";
 	constexpr const char* AmmoIndicator = "assets/spraycorner.png";
+	constexpr const char* Enemy = "assets/rona.png";
 }
 
 enum GameState

@@ -19,7 +19,7 @@ Entity* EntityManager::createEntity(EntType entityType, EntityData& entityData)
 		pEnt->setOrigin({ bbox.width / 2, bbox.height / 2 });
 		pEnt->setPosition(entityData.entityPos);
 		pEnt->setVelocity(entityData.velocity);
-		pEnt->setColor(sf::Color::Green);
+		//pEnt->setColor(sf::Color::Green);
 		enemies.add(pEnt);
 		return pEnt;
 		break;

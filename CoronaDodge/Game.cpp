@@ -35,11 +35,11 @@ void Game::load()
 		wSize.y - aiBox.height - 50.0f });
 
 	ammoFill.setFillColor(sf::Color::Cyan);
-	ammoFill.setSize({aiBox.width, 100.0f});
+	ammoFill.setSize({aiBox.width, 70.0});
 	//ammoFill.setPosition(ammoIndicator.getPosition());
 	
 	auto ammoFillPos = ammoIndicator.getPosition();
-	ammoFillPos.y += (aiBox.height - ammoFill.getSize().y);
+	ammoFillPos.y += (aiBox.height - ammoFill.getSize().y - 5.0f);
 	ammoFill.setPosition(ammoFillPos);
 	
 	world.setWindow(&wnd);
@@ -176,14 +176,9 @@ void Game::update(sf::Time dt)
 		updateScore(dt);
 		world.update(dt);
 		auto ammoCount = player.getAmmoCount();
-		sf::Vector2f fillSize = { 64.0, 100.0 };
-		fillSize.y /= 4;
+		sf::Vector2f fillSize = { 64.0, 70 };
+		fillSize.y /= 5;
 		ammoFill.setSize({ fillSize.x, fillSize.y * ammoCount });
-
-		if (player.getSprayStatus())
-		{
-			player.updateTimeToShoot(dt.asSeconds());
-		}
 
 		auto player = world.getPlayer();
 		if (!player.isAlive()) {
