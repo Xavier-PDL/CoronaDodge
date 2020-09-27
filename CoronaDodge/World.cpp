@@ -12,6 +12,7 @@ World::World()
 	arena.setOutlineThickness(2.0f);
 	auto aSize = arena.getSize();
 	arena.setOrigin(aSize.x / 2, aSize.y / 2);
+	entities = EntityManager::Get();
 }
 
 void World::setWindow(sf::RenderWindow* pWnd)
@@ -53,11 +54,11 @@ void World::spawnEntity(sf::Time dt) {
 		EntityData enemyData;
 		enemyData.entityPos = entPos;
 		enemyData.velocity = velocity * 0.1f;
-		auto pEnemy = entities.createEntity(EntType::ET_Enemy, enemyData);
+		auto pEnemy = entities->createEntity(EntType::ET_Enemy, enemyData);
 		EntityData streakData;
 		streakData.entityPos = entPos;
 		streakData.pEnt = pEnemy;
-		entities.createEntity(EntType::ET_Streak, streakData);
+		entities->createEntity(EntType::ET_Streak, streakData);
 
 
 		spawnVal = (float)((rand() % 50 + 5) / 10.);
@@ -100,16 +101,13 @@ void World::updatePlayer()
 		playerPos.y - playerBox.height / 2 };
 	auto sprayAngle = Math::CalcAngle(mousePos, playerCenter);
 	player.updateSpray(sprayAngle);
-
-
-
 }
 
 int bOnce = false;
 void World::updateEntities(sf::Time dt) 
 {
 	spawnEntity(dt);
-	entities.update(dt, player);
+	entities->update(dt, player);
 }
 
 void World::draw()
@@ -117,7 +115,7 @@ void World::draw()
 	auto wSize = pWnd->getSize();
 	arena.setPosition(float(wSize.x / 2), float(wSize.y / 2));
 	pWnd->draw(arena);
-	entities.draw(*pWnd);
+	entities->draw(*pWnd);
 	player.draw(*pWnd);
 }
 

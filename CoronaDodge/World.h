@@ -10,7 +10,7 @@ class World
 	// play area
 	sf::RectangleShape arena;
 	//entity manager
-	EntityManager entities;
+	EntityManager* entities;
 	Player player;
 	sf::RenderWindow* pWnd;
 	float spawnVal = 0;
@@ -23,6 +23,7 @@ public:
 	void draw();
 	void update(sf::Time dt);
 	void spawnEntity(sf::Time dt);
+	EntityManager& getEntities();
 	void updatePlayerPos(sf::Vector2f deltaPos);
 	const Player& getPlayer();
 private:

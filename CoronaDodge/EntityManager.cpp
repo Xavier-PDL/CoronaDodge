@@ -1,5 +1,12 @@
 #include "EntityManager.h"
+EntityManager* EntityManager::pEntMgr = nullptr;
 
+EntityManager* EntityManager::Get()
+{
+	if (!pEntMgr)
+		pEntMgr = new EntityManager();
+	return pEntMgr;
+}
 
 Entity* EntityManager::createEntity(EntType entityType, EntityData& entityData)
 {
@@ -75,11 +82,16 @@ void EntityManager::update(sf::Time dt, Player& player)
 	streaks.forEach(updateCallback, &updateData);
 }
 
+LinkedList<Entity>& EntityManager::getStreaks()
+{
+	return streaks;
+}
+
 void drawCallback(Node<Entity>* pNode, void* pWnd)
 {
 	auto pEnt = pNode->pElement;
 	if (pEnt->getType() == EntType::ET_Streak)
-		reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(pEnt->streakVerts);
+		reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(pEnt->getVerts());
 	else if (pEnt->getType() == EntType::ET_Enemy)
 		reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(*pEnt);
 		//reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(*pEnt->getStreak());

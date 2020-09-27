@@ -19,8 +19,8 @@ class Entity : public sf::Sprite
 	float timeToDie = 15.0f;
 	Entity* pTarget = nullptr;
 	//sf::RectangleShape streak;
-public:
 	sf::VertexArray streakVerts;
+public:
 	Entity(EntType entType);
 	Entity(EntType entType, TextureID texID);
 	EntType getType();
@@ -34,4 +34,5 @@ public:
 	/*void setLength(float length);
 	sf::RectangleShape* getStreak();*/
 	void adjustStreak(sf::Vector2f enemyPos);
+	sf::VertexArray& getVerts();
 };
