@@ -269,6 +269,7 @@ void Player::updateSpray(float sprayAngle)
 	if (sprayShots)
 	{
 		isSpraying = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+		
 	}
 }
 
