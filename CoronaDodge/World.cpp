@@ -98,11 +98,11 @@ void World::updatePlayer()
 	sf::Vector2f playerCenter = { 
 		playerPos.x - playerBox.width / 2, 
 		playerPos.y - playerBox.height / 2 };
-	/*sf::Vector2f wCenter = { (float)wSize.x / 2, (float)wSize.y / 2 };*/
-	/*auto dp = mousePos - playerCenter;
-	auto sprayAngle = (atan2f(dp.y, dp.x) * 180.0f / 3.14f) + 90.0f;*/
 	auto sprayAngle = Math::CalcAngle(mousePos, playerCenter);
 	player.updateSpray(sprayAngle);
+
+
+
 }
 
 int bOnce = false;

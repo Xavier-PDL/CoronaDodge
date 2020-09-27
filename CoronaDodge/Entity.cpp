@@ -75,10 +75,13 @@ void Entity::adjustStreak(sf::Vector2f enemyPos)
 	streakVerts[2].position = { end.x + delta.x * 25.0f, end.y - delta.y * 25.0f };
 	streakVerts[3].position = { end.x - delta.x * 25.0f, end.y + delta.y * 25.0f };
 
-	streakVerts[0].color = sf::Color::Green;
-	streakVerts[1].color = sf::Color::Green;
-	streakVerts[2].color = sf::Color::Green;
-	streakVerts[3].color = sf::Color::Green;
+	auto streakColor = sf::Color::Green;
+	streakColor.a = 127;
+
+	streakVerts[0].color = streakColor;
+	streakVerts[1].color = streakColor;
+	streakVerts[2].color = streakColor;
+	streakVerts[3].color = streakColor;
 }
 //
 //void Entity::setLength(float length)

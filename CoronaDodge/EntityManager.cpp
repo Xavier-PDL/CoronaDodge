@@ -53,20 +53,7 @@ void updateCallback(Node<Entity>* pNode, void* pData)
 	}
 	else if (pEnt->getType() == EntType::ET_Streak)
 	{
-		//auto streak = pEnt->getStreak();
-		
-		//auto basePos = streak->getPosition();
-		/*auto targetPos = pEnt->getTarget()->getPosition();
-		auto dist = Math::GetDistance(targetPos, basePos);
-		auto angle = Math::CalcAngle(targetPos, basePos);*/
-		//pEnt->setLength(dist);
-		//streak.setPosition(basePos);
-		//streak->setRotation(angle);
 		auto enemyPos = pEnt->getTarget()->getPosition();
-		//sf::Vector2f enemySize = { pEnt->getLocalBounds().width, pEnt->getLocalBounds().height };
-		//enemySize.x /= 2;
-		//enemySize.y /= 2;
-		//sf::Vector2f enemyCenter = { enemyPos.x - enemySize.x, enemyPos.y - enemySize.y };
 		pEnt->adjustStreak(enemyPos);
 	}
 }
