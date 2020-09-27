@@ -23,7 +23,7 @@ public:
 	void draw();
 	void update(sf::Time dt);
 	void spawnEntity(sf::Time dt);
-	EntityManager& getEntities();
+	//EntityManager& getEntities();
 	void updatePlayerPos(sf::Vector2f deltaPos);
 	const Player& getPlayer();
 private:

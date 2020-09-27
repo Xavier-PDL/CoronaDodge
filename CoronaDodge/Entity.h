@@ -20,6 +20,8 @@ class Entity : public sf::Sprite
 	Entity* pTarget = nullptr;
 	//sf::RectangleShape streak;
 	sf::VertexArray streakVerts;
+	float timeToClean = 0.1f;
+	bool streakCleaned = false;
 public:
 	Entity(EntType entType);
 	Entity(EntType entType, TextureID texID);
@@ -35,4 +37,8 @@ public:
 	sf::RectangleShape* getStreak();*/
 	void adjustStreak(sf::Vector2f enemyPos);
 	sf::VertexArray& getVerts();
+	void cleanStreak();
+	bool getCleaned();
+	void updateTimeToClean(sf::Time* pDT);
+	float getTimeToClean();
 };

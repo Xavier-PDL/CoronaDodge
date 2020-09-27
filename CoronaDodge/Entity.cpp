@@ -85,3 +85,23 @@ sf::VertexArray& Entity::getVerts()
 {
 	return streakVerts;
 }
+
+void Entity::cleanStreak()
+{
+	streakCleaned = true;
+}
+
+bool Entity::getCleaned()
+{
+	return streakCleaned;
+}
+
+void Entity::updateTimeToClean(sf::Time* pDT)
+{
+	timeToClean -= pDT->asSeconds();
+}
+
+float Entity::getTimeToClean()
+{
+	return timeToClean;
+}

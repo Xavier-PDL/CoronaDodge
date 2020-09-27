@@ -62,15 +62,20 @@ void updateCallback(Node<Entity>* pNode, void* pData)
 	{
 		auto enemyPos = pEnt->getTarget()->getPosition();
 		pEnt->adjustStreak(enemyPos);
+		if (pEnt->getCleaned())
+		{
+			pEnt->updateTimeToClean(pUpdateData->pDT);
+		}
 	}
 }
 
 bool removeCallback(Node<Entity>* pNode)
 {
 	auto pEnt = pNode->pElement;
-	if(pEnt->getType() == ET_Enemy && pEnt->getTimeToDie() <= 0)
+	if (pEnt->getType() == ET_Enemy && pEnt->getTimeToDie() <= 0)
 		return true;
-	// spray/streak collision
+	if (pEnt->getType() == ET_Streak && pEnt->getTimeToClean() <= 0)
+		return true;
 	return false;
 }
 
@@ -80,6 +85,7 @@ void EntityManager::update(sf::Time dt, Player& player)
 	enemies.forEach(updateCallback, &updateData);
 	enemies.remove_if(removeCallback);
 	streaks.forEach(updateCallback, &updateData);
+	streaks.remove_if(removeCallback);
 }
 
 LinkedList<Entity>& EntityManager::getStreaks()
