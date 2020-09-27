@@ -15,6 +15,7 @@ public:
 	Entity* createEntity(EntType entityType, EntityData& entityData);
 	void draw(sf::RenderWindow& wnd);
 	void update(sf::Time dt, Player& player);
+	void clear();
 	LinkedList<Entity>& getStreaks();
 };
 

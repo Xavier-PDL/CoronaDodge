@@ -124,3 +124,9 @@ void World::update(sf::Time dt)
 	updatePlayer();
 	updateEntities(dt);
 }
+
+void World::reset()
+{
+	this->entities->clear();
+	player.reset(pWnd);
+}

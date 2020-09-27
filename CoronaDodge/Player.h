@@ -1,16 +1,8 @@
 #pragma once
 #include "Entity.h"
-#include <deque>
-#include <boost/geometry.hpp>
-#include <boost/geometry/core/point_type.hpp>
-#include <boost/geometry/geometries/point.hpp>
-#include <boost/geometry/geometries/register/point.hpp>
-#include <boost/geometry/geometries/register/linestring.hpp>
 
-typedef std::vector<sf::Vector2f> Polygon;
 
-BOOST_GEOMETRY_REGISTER_POINT_2D(sf::Vector2f, float, boost::geometry::cs::cartesian, x, y)
-BOOST_GEOMETRY_REGISTER_LINESTRING(Polygon)
+
 
 class Player : public Entity
 {
@@ -19,6 +11,7 @@ class Player : public Entity
 	sf::ConvexShape playerSpray;
 public:
 	Player();
+	void reset(sf::RenderWindow* pWnd);
 	void update(sf::Vector2f deltaPos);
 	void checkWall(sf::Vector2f& deltaPos);
 	void checkStreaks(sf::Vector2f& deltaPos);

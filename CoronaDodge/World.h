@@ -22,6 +22,7 @@ public:
 	void init();
 	void draw();
 	void update(sf::Time dt);
+	void reset();
 	void spawnEntity(sf::Time dt);
 	//EntityManager& getEntities();
 	void updatePlayerPos(sf::Vector2f deltaPos);

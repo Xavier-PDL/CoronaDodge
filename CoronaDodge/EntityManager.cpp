@@ -88,6 +88,12 @@ void EntityManager::update(sf::Time dt, Player& player)
 	streaks.remove_if(removeCallback);
 }
 
+void EntityManager::clear()
+{
+	enemies.clear();
+	streaks.clear();
+}
+
 LinkedList<Entity>& EntityManager::getStreaks()
 {
 	return streaks;

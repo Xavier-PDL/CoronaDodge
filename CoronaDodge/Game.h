@@ -1,6 +1,7 @@
 #pragma once
 #include "World.h"
 #include <fstream>
+#include <stack>
 constexpr int WndWidth	= 1200;
 constexpr int WndHeight = 900;
 constexpr const char* WndTitle = "CoronaDodge!";
@@ -14,13 +15,23 @@ namespace TexFile
 	constexpr const char* Enemy = "assets/enemy.bmp";
 }
 
+enum GameState
+{
+	GS_Playing,
+	GS_Paused,
+	GS_Menu,
+	GS_GameOver
+};
+
 class Game
 {
 	bool isRunning = true;
 	sf::Clock clock;
 	sf::RenderWindow wnd;
 	sf::Font someFont;
+	sf::Text textMenu;
 	sf::Text textLost;
+	sf::Text textLost2;
 	World world;
 
 	int score = 0;
@@ -28,6 +39,8 @@ class Game
 	float scoreCount = 3.f;
 	sf::Text textScore;
 	sf::Font fontScore;
+
+	std::stack<GameState> gameState;
 
 public:
 	Game();

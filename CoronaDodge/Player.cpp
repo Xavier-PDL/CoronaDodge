@@ -1,5 +1,16 @@
 #include "Player.h"
 #include "World.h"
+#include <deque>
+#include <boost/geometry.hpp>
+#include <boost/geometry/core/point_type.hpp>
+#include <boost/geometry/geometries/point.hpp>
+#include <boost/geometry/geometries/register/point.hpp>
+#include <boost/geometry/geometries/register/linestring.hpp>
+typedef std::vector<sf::Vector2f> Polygon;
+
+BOOST_GEOMETRY_REGISTER_POINT_2D(sf::Vector2f, float, boost::geometry::cs::cartesian, x, y)
+BOOST_GEOMETRY_REGISTER_LINESTRING(Polygon)
+
 Player::Player()
 	:
 	Entity(EntType::ET_Player)
@@ -9,6 +20,15 @@ Player::Player()
 	playerSpray.setPoint(1, { -25, -75 });
 	playerSpray.setPoint(2, { 25, -75 });
 	playerSpray.setFillColor(sf::Color::Cyan);
+}
+
+void Player::reset(sf::RenderWindow* pWnd)
+{
+	alive = true;
+	auto wSize = pWnd->getSize();
+	wSize.x /= 2;
+	wSize.y /= 2;
+	setPosition({ (float)wSize.x, (float)wSize.y });
 }
 
 void Player::update(sf::Vector2f deltaPos)

@@ -4,6 +4,7 @@ Game::Game()
 	:
 	wnd(sf::VideoMode(WndWidth, WndHeight), WndTitle)
 {
+	gameState.push(GS_Menu);
 }
 
 void Game::load()
@@ -36,11 +37,12 @@ void Game::loadFonts() {
 	textScore.setFillColor(sf::Color::Black);
 	auto textLocalBounds = textScore.getLocalBounds();
 	textScore.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
-	textScore.setPosition((float)wSize.x * .65f, (float)wSize.y * .85f);
-
+	textScore.setPosition((float)wSize.x * .01f, (float)wSize.y * .01f);
+	textScore.setFillColor(sf::Color::White);
 	//Loss font
 	if (!someFont.loadFromFile("assets/main_font.ttf"))
 		printf("Failed to load font!!!");
+
 	textLost.setFont(someFont);
 	textLost.setString("Game Over!");
 	textLost.setCharacterSize(128);
@@ -50,6 +52,26 @@ void Game::loadFonts() {
 	textLost.setFillColor(sf::Color::Green);
 	textLost.setOutlineColor(sf::Color::Black);
 	textLost.setOutlineThickness(4.0f);
+
+	textLost2.setFont(someFont);
+	textLost2.setString("Press SPACE to Restart!");
+	textLost2.setCharacterSize(128);
+	textLocalBounds = textLost2.getLocalBounds();
+	textLost2.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
+	textLost2.setPosition({ (float)wSize.x / 2, (float)wSize.y / 2 });
+	textLost2.setFillColor(sf::Color::Green);
+	textLost2.setOutlineColor(sf::Color::Black);
+	textLost2.setOutlineThickness(4.0f);
+
+	textMenu.setFont(someFont);
+	textMenu.setString("Press SPACE To Start Game!");
+	textMenu.setCharacterSize(128);
+	textLocalBounds = textMenu.getLocalBounds();
+	textMenu.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
+	textMenu.setPosition({ (float)wSize.x / 2, (float)wSize.y / 4 });
+	textMenu.setFillColor(sf::Color::Green);
+	textMenu.setOutlineColor(sf::Color::Black);
+	textMenu.setOutlineThickness(4.0f);
 }
 
 void Game::run()
@@ -65,9 +87,31 @@ void Game::run()
 				isRunning = false;
 				wnd.close();
 			}
+			if (gameState.top() == GS_Menu)
+			{
+				if (event.type == sf::Event::KeyPressed)
+				{
+					if (event.key.code == sf::Keyboard::Space)
+					{
+						//world.reset();
+						gameState.push(GS_Playing);
+					}
+				}
+			}
+			else if (gameState.top() == GS_GameOver)
+			{
+				if (event.type == sf::Event::KeyPressed)
+				{
+					if (event.key.code == sf::Keyboard::Space)
+					{
+						world.reset();
+						gameState.pop();
+					}
+				}
+			}
 		}
 		update(dt);
-		wnd.clear(sf::Color::White);
+		wnd.clear(sf::Color::Black);
 		render(wnd);
 		wnd.display();
 	}
@@ -75,18 +119,20 @@ void Game::run()
 
 void Game::handleInput(sf::Time dt)
 {
-	sf::Vector2f playerVel;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) playerVel.y -= moveSpeed;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) playerVel.y += moveSpeed;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) playerVel.x -= moveSpeed;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) playerVel.x += moveSpeed;
-
-	if (abs(playerVel.x) + abs(playerVel.y) > moveSpeed)
+	if (gameState.top() == GS_Playing)
 	{
-		playerVel *= 0.75f;
+		sf::Vector2f playerVel;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) playerVel.y -= moveSpeed;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) playerVel.y += moveSpeed;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) playerVel.x -= moveSpeed;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) playerVel.x += moveSpeed;
+
+		if (abs(playerVel.x) + abs(playerVel.y) > moveSpeed)
+		{
+			playerVel *= 0.75f;
+		}
+		world.updatePlayerPos(playerVel * dt.asSeconds());
 	}
-	world.updatePlayerPos(playerVel * dt.asSeconds());
 	//player.move(playerVel * dt.asSeconds());
 }
 
@@ -94,20 +140,22 @@ void Game::update(sf::Time dt)
 {
 	handleInput(dt);
 	auto player = world.getPlayer();
-	if (player.isAlive())
+	if (gameState.top() == GS_Playing)
 	{
 		updateScore(dt);
 		world.update(dt);
+		auto player = world.getPlayer();
+		if (!player.isAlive()) {
+			gameState.push(GS_GameOver);
+		}
 	}
-
 	else {
 		if (score > highScore) {
 			highScore = score;
 			writeHighScore();
 		}
+		
 	}
-
-
 
 	// world.update(dt);
 	//updateAudio?
@@ -116,14 +164,24 @@ void Game::update(sf::Time dt)
 
 void Game::render(sf::RenderWindow& wnd)
 {
-	// ui
-
-	world.draw();
-	auto player = world.getPlayer();
-	if (!player.isAlive()) {
-		wnd.draw(textLost);
+	auto gs = gameState.top();
+	if (gs == GS_Menu)
+	{
+		world.draw();
+		wnd.draw(textMenu);
 	}
-	drawScore(wnd);
+	else if (gs == GS_Playing)
+	{
+		world.draw();
+		drawScore(wnd);
+	}
+	else if (gs == GS_GameOver)
+	{
+		world.draw();
+		wnd.draw(textLost);
+		wnd.draw(textLost2);
+		drawScore(wnd);
+	}
 }
 
 void Game::drawScore(sf::RenderWindow& wnd) {
