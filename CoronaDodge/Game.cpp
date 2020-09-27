@@ -15,17 +15,43 @@ void Game::load()
 	// entity textures
 	texMan->addTexture(TexID::Enemy, TexFile::Enemy);
 	texMan->addTexture(TexID::PlayerNorth, TexFile::PlayerWest);
+	loadFonts();
 	
+	getHighScore();
+	//Score font
+	
+	// item textures
+
+	// sounds??
+	
+	world.setWindow(&wnd);
+	world.init();
+}
+
+void Game::loadFonts() {
+	auto wSize = wnd.getSize();
+
+	//Score font
+	if (!fontScore.loadFromFile("assets/score_font.ttf"))
+		throw "Failed to load font.";
+	textScore.setFont(fontScore);
+	textScore.setCharacterSize(40);
+	textScore.setFillColor(sf::Color::Black);
+	auto textLocalBounds = textScore.getLocalBounds();
+	textScore.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
+	textScore.setPosition((float)wSize.x*.65f, (float)wSize.y * .85f);
+
+	//Loss font
 	if (!someFont.loadFromFile("assets/main_font.ttf"))
 		printf("Failed to load font!!!");
 	textLost.setFont(someFont);
 	textLost.setString("Game Over!");
 	textLost.setCharacterSize(128);
-	auto textLocalBounds = textLost.getLocalBounds();
+	textLocalBounds = textLost.getLocalBounds();
 	textLost.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
-	auto wSize = wnd.getSize();
 	textLost.setPosition({ (float)wSize.x / 2, (float)wSize.y / 4 });
 	textLost.setFillColor(sf::Color::Green);
+
 	textLost.setOutlineColor(sf::Color::Black);
 	textLost.setOutlineThickness(4.0f);
 
@@ -46,6 +72,7 @@ void Game::load()
 	quad[1].color = sf::Color::Black;
 	quad[2].color = sf::Color::Black;
 	quad[3].color = sf::Color::Black;
+
 }
 
 void Game::run()
@@ -107,24 +134,66 @@ void Game::update(sf::Time dt)
 	auto player = world.getPlayer();
 	if (player.isAlive())
 	{
+		updateScore(dt);
 		world.update(dt);
 	}
 
-	auto end = player.getPosition();
-	quad[0].position = { 0, 0 };
-	quad[1].position = { end.x, 0 };
-	quad[2].position = { end.x, end.y };
-	quad[3].position = { 0, end.y };
+	else {
+		if (score > highScore) {
+			highScore = score;
+			writeHighScore();
+		}
+	}
+
+
+
 	// world.update(dt);
 	//updateAudio?
+	
 }
 
 void Game::render(sf::RenderWindow& wnd)
 {
 	// ui
-	//wnd.draw(quad);
+
 	world.draw();
 	auto player = world.getPlayer();
-	if (!player.isAlive())
+	if (!player.isAlive()) {
 		wnd.draw(textLost);
+	}
+	drawScore(wnd);
+}
+
+void Game::drawScore(sf::RenderWindow& wnd) {
+	textScore.setString("Score: " + std::to_string(score) + "\n" + "High Score: " + std::to_string(highScore));
+	wnd.draw(textScore);
+}
+
+void Game::updateScore(sf::Time dt) {
+	if (scoreCount <= 0) {
+		score += 5;
+		scoreCount = 3.f;
+	}
+	else
+		scoreCount -= dt.asSeconds();
+}
+
+void Game::getHighScore() {
+	std::ifstream infile;
+	infile.open("assets/high_score.txt");
+	if (!infile.is_open()) {
+		throw "Could not open file";
+	}
+	infile >> highScore;
+	infile.close();
+}
+
+void Game::writeHighScore() {
+	std::ofstream outfile;
+	outfile.open("assets/high_score.txt");
+	if (!outfile.is_open()) {
+		throw "Could not open file";
+	}
+	outfile << highScore;
+	outfile.close();
 }
