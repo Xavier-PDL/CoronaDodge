@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <iostream>
 
 Game::Game()
 	:
@@ -9,6 +10,7 @@ Game::Game()
 
 void Game::load()
 {
+	
 	auto texMan = TextureManager::Get();
 
 	// entity textures
@@ -18,6 +20,7 @@ void Game::load()
 	texMan->addTexture(TexID::AmmoIndicator, TexFile::AmmoIndicator);
 
 	loadFonts();
+	loadSounds();
 	getHighScore();
 	
 	// item textures
@@ -41,6 +44,16 @@ void Game::load()
 	
 	world.setWindow(&wnd);
 	world.init();
+}
+
+void Game::loadSounds() {
+	deathSound.putType(SoundEffect);
+	deathSound.load("assets/cough.ogg");
+	deathSound.setVolume(60.f);
+
+	spraySound.putType(SoundEffect);
+	spraySound.load("assets/spray.ogg");
+	spraySound.setVolume(100.f);
 }
 
 void Game::loadFonts() {
@@ -123,6 +136,7 @@ void Game::run()
 					{
 						world.reset();
 						gameState.pop();
+						score = 0;
 					}
 				}
 			}
@@ -168,6 +182,7 @@ void Game::update(sf::Time dt)
 
 		auto player = world.getPlayer();
 		if (!player.isAlive()) {
+			deathSound.play();
 			gameState.push(GS_GameOver);
 		}
 	}
