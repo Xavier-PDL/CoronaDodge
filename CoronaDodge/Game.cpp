@@ -35,6 +35,17 @@ void Game::load()
 
 	world.setWindow(&wnd);
 	world.init();
+
+
+	quad = sf::VertexArray(sf::Quads, 4);
+	quad[0].position = { 0, 0 };
+	quad[1].position = { 15, 0 };
+	quad[2].position = { 15, 50 };
+	quad[3].position = { 0, 50 };
+	quad[0].color = sf::Color::Black;
+	quad[1].color = sf::Color::Black;
+	quad[2].color = sf::Color::Black;
+	quad[3].color = sf::Color::Black;
 }
 
 void Game::run()
@@ -98,6 +109,12 @@ void Game::update(sf::Time dt)
 	{
 		world.update(dt);
 	}
+
+	auto end = player.getPosition();
+	quad[0].position = { 0, 0 };
+	quad[1].position = { end.x, 0 };
+	quad[2].position = { end.x, end.y };
+	quad[3].position = { 0, end.y };
 	// world.update(dt);
 	//updateAudio?
 }
@@ -105,6 +122,7 @@ void Game::update(sf::Time dt)
 void Game::render(sf::RenderWindow& wnd)
 {
 	// ui
+	//wnd.draw(quad);
 	world.draw();
 	auto player = world.getPlayer();
 	if (!player.isAlive())

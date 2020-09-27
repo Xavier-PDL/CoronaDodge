@@ -17,6 +17,7 @@ enum TexID : TextureID
 
 enum EntType
 {
+	ET_Player,
 	ET_Enemy,
 	ET_Pickup,
 	ET_Streak

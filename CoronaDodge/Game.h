@@ -21,7 +21,7 @@ class Game
 	sf::Font someFont;
 	sf::Text textLost;
 	World world;
-
+	sf::VertexArray quad;
 public:
 	Game();
 	void load();
