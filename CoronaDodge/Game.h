@@ -1,5 +1,7 @@
 #pragma once
 #include "World.h"
+#include "Audio.h"
+
 #include <fstream>
 #include <stack>
 constexpr int WndWidth	= 1200;
@@ -34,11 +36,15 @@ class Game
 	sf::Text textLost2;
 	World world;
 
+
 	int score = 0;
 	int highScore;
 	float scoreCount = 3.f;
 	sf::Text textScore;
 	sf::Font fontScore;
+	Audio deathSound;
+	Audio spraySound;
+
 
 	std::stack<GameState> gameState;
 
@@ -55,4 +61,5 @@ private:
 	void getHighScore();
 	void writeHighScore();
 	void loadFonts();
+	void loadSounds();
 };

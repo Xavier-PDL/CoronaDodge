@@ -2,6 +2,13 @@
 
 int main()
 {
+	Audio bg(BackgroundMusic);
+	bg.load("assets/bg_music.ogg");
+	bg.setVolume(120.f);
+	bg.setLoop(true);
+	bg.play();
+
+
 	Game game;
 	game.load();
 	game.run();
