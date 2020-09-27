@@ -15,6 +15,7 @@ void Game::load()
 	texMan->addTexture(TexID::Enemy, TexFile::Enemy);
 	texMan->addTexture(TexID::PlayerNorth, TexFile::PlayerWest);
 	texMan->addTexture(TexID::PickupAmmo, TexFile::Ammo);
+	texMan->addTexture(TexID::AmmoIndicator, TexFile::AmmoIndicator);
 
 	loadFonts();
 	getHighScore();
@@ -22,6 +23,21 @@ void Game::load()
 	// item textures
 
 	// sounds??
+	
+	auto wSize = wnd.getSize();
+	ammoIndicator.setTexture(texMan->getTexture(TexID::AmmoIndicator));
+	auto aiBox = ammoIndicator.getLocalBounds();
+	ammoIndicator.setPosition({
+		wSize.x - aiBox.width - 25.0f,
+		wSize.y - aiBox.height - 50.0f });
+
+	ammoFill.setFillColor(sf::Color::Cyan);
+	ammoFill.setSize({aiBox.width, 100.0f});
+	//ammoFill.setPosition(ammoIndicator.getPosition());
+	
+	auto ammoFillPos = ammoIndicator.getPosition();
+	ammoFillPos.y += (aiBox.height - ammoFill.getSize().y);
+	ammoFill.setPosition(ammoFillPos);
 	
 	world.setWindow(&wnd);
 	world.init();
@@ -145,6 +161,11 @@ void Game::update(sf::Time dt)
 	{
 		updateScore(dt);
 		world.update(dt);
+		auto ammoCount = player.getAmmoCount();
+		sf::Vector2f fillSize = { 64.0, 100.0 };
+		fillSize.y /= 4;
+		ammoFill.setSize({ fillSize.x, fillSize.y * ammoCount });
+
 		auto player = world.getPlayer();
 		if (!player.isAlive()) {
 			gameState.push(GS_GameOver);
@@ -166,19 +187,19 @@ void Game::update(sf::Time dt)
 void Game::render(sf::RenderWindow& wnd)
 {
 	auto gs = gameState.top();
+	wnd.draw(ammoFill);
+	wnd.draw(ammoIndicator);
+	world.draw();
 	if (gs == GS_Menu)
-	{
-		world.draw();
+	{		
 		wnd.draw(textMenu);
 	}
 	else if (gs == GS_Playing)
 	{
-		world.draw();
 		drawScore(wnd);
 	}
 	else if (gs == GS_GameOver)
 	{
-		world.draw();
 		wnd.draw(textLost);
 		wnd.draw(textLost2);
 		drawScore(wnd);

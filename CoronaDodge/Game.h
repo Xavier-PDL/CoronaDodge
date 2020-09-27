@@ -14,6 +14,7 @@ namespace TexFile
 	//const char* PlayerSouth = "assets/player.bmp";
 	constexpr const char* Enemy = "assets/enemy.bmp";
 	constexpr const char* Ammo = "assets/ammo.png";
+	constexpr const char* AmmoIndicator = "assets/spraycorner.png";
 }
 
 enum GameState
@@ -29,17 +30,21 @@ class Game
 	bool isRunning = true;
 	sf::Clock clock;
 	sf::RenderWindow wnd;
-	sf::Font someFont;
-	sf::Text textMenu;
-	sf::Text textLost;
-	sf::Text textLost2;
 	World world;
 
 	int score = 0;
 	int highScore;
 	float scoreCount = 3.f;
-	sf::Text textScore;
+
 	sf::Font fontScore;
+	sf::Text textScore;
+	sf::Font someFont;
+	sf::Text textMenu;
+	sf::Text textLost;
+	sf::Text textLost2;
+
+	sf::Sprite ammoIndicator;
+	sf::RectangleShape ammoFill;
 
 	std::stack<GameState> gameState;
 

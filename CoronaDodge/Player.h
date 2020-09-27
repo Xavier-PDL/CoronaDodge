@@ -9,6 +9,8 @@ class Player : public Entity
 	bool isSpraying;
 	bool alive = true;
 	sf::ConvexShape playerSpray;
+	int sprayShots = 2;
+	float timeTillNextShot = 2.0f;
 public:
 	Player();
 	void reset(sf::RenderWindow* pWnd);
@@ -23,5 +25,6 @@ public:
 	bool isAlive();
 	bool getSprayStatus();
 	sf::ConvexShape& getSpray();
+	int getAmmoCount();
 };
 

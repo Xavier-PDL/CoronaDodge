@@ -266,7 +266,10 @@ void Player::checkItems()
 void Player::updateSpray(float sprayAngle)
 {
 	playerSpray.setRotation(sprayAngle);
-	isSpraying = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+	if (sprayShots)
+	{
+		isSpraying = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+	}
 }
 
 void Player::draw(sf::RenderWindow& wnd)
@@ -294,4 +297,9 @@ bool Player::getSprayStatus()
 sf::ConvexShape& Player::getSpray()
 {
 	return playerSpray;
+}
+
+int Player::getAmmoCount()
+{
+	return sprayShots;
 }
