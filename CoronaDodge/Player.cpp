@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "World.h"
+#include "Game.h"
 #include <deque>
 #include <boost/geometry.hpp>
 #include <boost/geometry/core/point_type.hpp>
@@ -284,6 +285,7 @@ void Player::updateSpray(sf::Time dt, float sprayAngle)
 			isSpraying = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 			if (isSpraying)
 			{
+				callSpraySound();
 				sprayShots--;
 				timeTillNextShot = 0.5f;
 			}
@@ -326,4 +328,14 @@ int Player::getAmmoCount()
 float Player::getTimeToShoot()
 {
 	return timeTillNextShot;
+}
+
+void Player::setSpraySoundCallback(SpraySoundCallback soundCallback)
+{
+	this->soundCallback = soundCallback;
+}
+
+void Player::callSpraySound()
+{
+	soundCallback();
 }

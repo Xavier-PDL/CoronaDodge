@@ -1,9 +1,7 @@
 #pragma once
 #include "Entity.h"
-
-
-
-
+class Game;
+using SpraySoundCallback = void();
 class Player : public Entity
 {
 	bool isSpraying;
@@ -11,6 +9,7 @@ class Player : public Entity
 	sf::ConvexShape playerSpray;
 	int sprayShots = 4;
 	float timeTillNextShot = -1.0f;
+	SpraySoundCallback* soundCallback;
 public:
 	Player();
 	void reset(sf::RenderWindow* pWnd);
@@ -27,5 +26,7 @@ public:
 	sf::ConvexShape& getSpray();
 	int getAmmoCount();
 	float getTimeToShoot();
+	void setSpraySoundCallback(SpraySoundCallback soundCallback);
+	void callSpraySound();
 };
 

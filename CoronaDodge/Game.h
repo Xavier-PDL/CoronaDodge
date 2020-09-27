@@ -57,7 +57,6 @@ class Game
 	sf::Sprite ammoIndicator;
 	sf::RectangleShape ammoFill;
 
-
 	std::stack<GameState> gameState;
 
 public:
@@ -74,4 +73,5 @@ private:
 	void writeHighScore();
 	void loadFonts();
 	void loadSounds();
+	
 };

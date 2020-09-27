@@ -53,7 +53,7 @@ void World::spawnEntity(sf::Time dt) {
 
 		EntityData enemyData;
 		enemyData.entityPos = entPos;
-		enemyData.velocity = velocity * 0.1f;
+		enemyData.velocity = velocity * moveSpeed * dt.asSeconds();
 		auto pEnemy = entities->createEntity(EntType::ET_Enemy, enemyData);
 		EntityData streakData;
 		streakData.entityPos = entPos;

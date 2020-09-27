@@ -1,6 +1,12 @@
 #include "Game.h"
 #include <iostream>
 
+Audio* pSpraySound = nullptr;
+void makeSpraySound()
+{
+	pSpraySound->play();
+}
+
 Game::Game()
 	:
 	wnd(sf::VideoMode(WndWidth, WndHeight), WndTitle)
@@ -47,6 +53,7 @@ void Game::load()
 	
 	world.setWindow(&wnd);
 	world.init();
+	world.getPlayer().setSpraySoundCallback(makeSpraySound);
 }
 
 void Game::loadSounds() {
@@ -57,7 +64,9 @@ void Game::loadSounds() {
 	spraySound.putType(SoundEffect);
 	spraySound.load("assets/spray.ogg");
 	spraySound.setVolume(100.f);
+	pSpraySound = &spraySound;
 }
+
 
 void Game::loadFonts() {
 	auto wSize = wnd.getSize();
@@ -214,11 +223,7 @@ void Game::update(sf::Time dt)
 			writeHighScore();
 		}
 		
-	}
-
-	// world.update(dt);
-	//updateAudio?
-	
+	}	
 }
 
 void Game::render(sf::RenderWindow& wnd)
