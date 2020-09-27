@@ -20,7 +20,6 @@ Entity* EntityManager::createEntity(EntType entityType, EntityData& entityData)
 	{
 		auto pEnt = new Entity(EntType::ET_Streak);
 		pEnt->setPosition(entityData.entityPos);
-		//pEnt->getStreak()->setPosition(entityData.entityPos);
 		pEnt->setTarget(entityData.pEnt);
 		streaks.add(pEnt);
 		break;
@@ -36,6 +35,7 @@ struct UpdateData
 	sf::Time* pDT;
 	Player& player;
 };
+
 void updateCallback(Node<Entity>* pNode, void* pData)
 {
 	auto pEnt = pNode->pElement;
@@ -63,14 +63,13 @@ bool removeCallback(Node<Entity>* pNode)
 	auto pEnt = pNode->pElement;
 	if(pEnt->getType() == ET_Enemy && pEnt->getTimeToDie() <= 0)
 		return true;
-	// spray/streak collition
+	// spray/streak collision
 	return false;
 }
 
 void EntityManager::update(sf::Time dt, Player& player)
 {
 	UpdateData updateData = { &dt, player };
-	
 	enemies.forEach(updateCallback, &updateData);
 	enemies.remove_if(removeCallback);
 	streaks.forEach(updateCallback, &updateData);

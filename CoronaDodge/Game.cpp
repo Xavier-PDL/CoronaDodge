@@ -9,16 +9,13 @@ Game::Game()
 void Game::load()
 {
 	auto texMan = TextureManager::Get();
-	
-	// load world texture?
 
 	// entity textures
 	texMan->addTexture(TexID::Enemy, TexFile::Enemy);
 	texMan->addTexture(TexID::PlayerNorth, TexFile::PlayerWest);
-	loadFonts();
 	
+	loadFonts();
 	getHighScore();
-	//Score font
 	
 	// item textures
 
@@ -39,7 +36,7 @@ void Game::loadFonts() {
 	textScore.setFillColor(sf::Color::Black);
 	auto textLocalBounds = textScore.getLocalBounds();
 	textScore.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
-	textScore.setPosition((float)wSize.x*.65f, (float)wSize.y * .85f);
+	textScore.setPosition((float)wSize.x * .65f, (float)wSize.y * .85f);
 
 	//Loss font
 	if (!someFont.loadFromFile("assets/main_font.ttf"))
@@ -51,17 +48,8 @@ void Game::loadFonts() {
 	textLost.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
 	textLost.setPosition({ (float)wSize.x / 2, (float)wSize.y / 4 });
 	textLost.setFillColor(sf::Color::Green);
-
 	textLost.setOutlineColor(sf::Color::Black);
 	textLost.setOutlineThickness(4.0f);
-
-	// item textures
-
-	// sounds??
-
-	world.setWindow(&wnd);
-	world.init();
-
 }
 
 void Game::run()
@@ -89,25 +77,10 @@ void Game::handleInput(sf::Time dt)
 {
 	sf::Vector2f playerVel;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-	{
-		playerVel.y -= moveSpeed;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-	{
-		playerVel.y += moveSpeed;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-	{
-		playerVel.x -= moveSpeed;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-	{
-		playerVel.x += moveSpeed;
-	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) playerVel.y -= moveSpeed;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) playerVel.y += moveSpeed;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) playerVel.x -= moveSpeed;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) playerVel.x += moveSpeed;
 
 	if (abs(playerVel.x) + abs(playerVel.y) > moveSpeed)
 	{
