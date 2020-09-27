@@ -62,17 +62,6 @@ void Game::loadFonts() {
 	world.setWindow(&wnd);
 	world.init();
 
-
-	quad = sf::VertexArray(sf::Quads, 4);
-	quad[0].position = { 0, 0 };
-	quad[1].position = { 15, 0 };
-	quad[2].position = { 15, 50 };
-	quad[3].position = { 0, 50 };
-	quad[0].color = sf::Color::Black;
-	quad[1].color = sf::Color::Black;
-	quad[2].color = sf::Color::Black;
-	quad[3].color = sf::Color::Black;
-
 }
 
 void Game::run()
