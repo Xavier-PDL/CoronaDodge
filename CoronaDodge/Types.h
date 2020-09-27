@@ -13,12 +13,13 @@ enum TexID : TextureID
 	Enemy,
 	PickupMask,
 	PickupAmmo,
+	AmmoIndicator
 };
 
 enum EntType
 {
 	ET_Player,
 	ET_Enemy,
-	ET_Pickup,
+	ET_Ammo,
 	ET_Streak
 };

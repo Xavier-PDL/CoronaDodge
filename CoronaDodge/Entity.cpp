@@ -11,7 +11,7 @@ Entity::Entity(EntType entType, TextureID texID)
 {
 	auto texMan = TextureManager::Get();
 	setTexture(texMan->getTexture(texID));
-	setColor(sf::Color::Green);
+	//setColor(sf::Color::Green);
 	this->entType = entType;
 }
 
@@ -104,4 +104,14 @@ void Entity::updateTimeToClean(sf::Time* pDT)
 float Entity::getTimeToClean()
 {
 	return timeToClean;
+}
+
+bool Entity::isItemSpawned()
+{
+	return itemSpawned;
+}
+
+void Entity::destroyItem()
+{
+	itemSpawned = false;
 }

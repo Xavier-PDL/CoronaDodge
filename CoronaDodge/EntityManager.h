@@ -9,6 +9,7 @@ class EntityManager
 	static EntityManager* pEntMgr;
 	LinkedList<Entity> enemies;
 	LinkedList<Entity> streaks;
+	LinkedList<Entity> pickups;
 public:
 	//std::vector<Entity> vEntites;
 	static EntityManager* Get();
@@ -17,5 +18,6 @@ public:
 	void update(sf::Time dt, Player& player);
 	void clear();
 	LinkedList<Entity>& getStreaks();
+	LinkedList<Entity>& getItems();
 };
 

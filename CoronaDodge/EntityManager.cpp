@@ -19,6 +19,7 @@ Entity* EntityManager::createEntity(EntType entityType, EntityData& entityData)
 		pEnt->setOrigin({ bbox.width / 2, bbox.height / 2 });
 		pEnt->setPosition(entityData.entityPos);
 		pEnt->setVelocity(entityData.velocity);
+		pEnt->setColor(sf::Color::Green);
 		enemies.add(pEnt);
 		return pEnt;
 		break;
@@ -30,6 +31,12 @@ Entity* EntityManager::createEntity(EntType entityType, EntityData& entityData)
 		pEnt->setTarget(entityData.pEnt);
 		streaks.add(pEnt);
 		break;
+	}
+	case EntType::ET_Ammo:
+	{
+		auto pEnt = new Entity(EntType::ET_Ammo, TexID::PickupAmmo);
+		pEnt->setPosition(entityData.entityPos);
+		pickups.add(pEnt);
 	}
 	default:
 		break;
@@ -76,6 +83,8 @@ bool removeCallback(Node<Entity>* pNode)
 		return true;
 	if (pEnt->getType() == ET_Streak && pEnt->getTimeToClean() <= 0)
 		return true;
+	if (pEnt->getType() == ET_Ammo && !pEnt->isItemSpawned())
+		return true;
 	return false;
 }
 
@@ -86,6 +95,7 @@ void EntityManager::update(sf::Time dt, Player& player)
 	enemies.remove_if(removeCallback);
 	streaks.forEach(updateCallback, &updateData);
 	streaks.remove_if(removeCallback);
+	pickups.remove_if(removeCallback);
 }
 
 void EntityManager::clear()
@@ -99,12 +109,19 @@ LinkedList<Entity>& EntityManager::getStreaks()
 	return streaks;
 }
 
+LinkedList<Entity>& EntityManager::getItems()
+{
+	return pickups;
+}
+
 void drawCallback(Node<Entity>* pNode, void* pWnd)
 {
 	auto pEnt = pNode->pElement;
 	if (pEnt->getType() == EntType::ET_Streak)
 		reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(pEnt->getVerts());
 	else if (pEnt->getType() == EntType::ET_Enemy)
+		reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(*pEnt);
+	else if (pEnt->getType() == EntType::ET_Ammo)
 		reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(*pEnt);
 		//reinterpret_cast<sf::RenderWindow*>(pWnd)->draw(*pEnt->getStreak());
 }
@@ -113,4 +130,5 @@ void EntityManager::draw(sf::RenderWindow& wnd)
 {
 	streaks.forEach(drawCallback, &wnd);
 	enemies.forEach(drawCallback, &wnd);
+	pickups.forEach(drawCallback, &wnd);
 }
