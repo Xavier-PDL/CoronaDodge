@@ -17,6 +17,8 @@ void Game::load()
 	texMan->addTexture(TexID::Enemy, TexFile::Enemy);
 	texMan->addTexture(TexID::PlayerNorth, TexFile::PlayerNorth);
 	texMan->addTexture(TexID::PlayerSouth, TexFile::PlayerSouth);
+	texMan->addTexture(TexID::PlayerWest, TexFile::PlayerWest);
+	texMan->addTexture(TexID::PlayerEast, TexFile::PlayerEast);
 	texMan->addTexture(TexID::PickupAmmo, TexFile::Ammo);
 	texMan->addTexture(TexID::AmmoIndicator, TexFile::AmmoIndicator);
 
@@ -161,13 +163,21 @@ void Game::handleInput(sf::Time dt)
 			playerVel.y -= moveSpeed;
 			player.setTexture(texMan->getTexture(PlayerNorth));
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
 		{
 			playerVel.y += moveSpeed;
 			player.setTexture(texMan->getTexture(PlayerSouth));
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) playerVel.x -= moveSpeed;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) playerVel.x += moveSpeed;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+		{
+			playerVel.x -= moveSpeed;
+			player.setTexture(texMan->getTexture(PlayerWest));
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+		{
+			playerVel.x += moveSpeed;
+			player.setTexture(texMan->getTexture(PlayerEast));
+		}
 
 		if (abs(playerVel.x) + abs(playerVel.y) > moveSpeed)
 		{

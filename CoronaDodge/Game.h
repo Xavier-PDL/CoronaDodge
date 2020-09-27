@@ -14,6 +14,8 @@ namespace TexFile
 	//constexpr const char* PlayerWest = "assets/front.png";
 	constexpr const char* PlayerNorth = "assets/back0.png";
 	constexpr const char* PlayerSouth = "assets/front0.png";
+	constexpr const char* PlayerWest = "assets/left0.png";
+	constexpr const char* PlayerEast = "assets/right0.png";
 	//const char* PlayerEast = "assets/player.bmp";
 	//const char* PlayerNorth = "assets/player.bmp";
 	//const char* PlayerSouth = "assets/player.bmp";
