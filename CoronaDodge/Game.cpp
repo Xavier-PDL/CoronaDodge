@@ -36,7 +36,7 @@ void Game::loadFonts() {
 	textScore.setFillColor(sf::Color::Black);
 	auto textLocalBounds = textScore.getLocalBounds();
 	textScore.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
-	textScore.setPosition((float)wSize.x * .65f, (float)wSize.y * .85f);
+	textScore.setPosition((float)wSize.x * .02f, (float)wSize.y * .02f);
 
 	//Loss font
 	if (!someFont.loadFromFile("assets/main_font.ttf"))
