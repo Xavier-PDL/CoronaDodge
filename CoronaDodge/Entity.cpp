@@ -3,9 +3,6 @@
 
 Entity::Entity(EntType entType)
 {
-	//streak.setFillColor(sf::Color::Green);
-	//streak.setSize({ 100.0f, 25.0f });
-	//streak.setOrigin({ 0, 25.0f / 2 });
 	streakVerts = sf::VertexArray(sf::Quads, 4);
 	this->entType = entType;
 }
@@ -64,12 +61,11 @@ void Entity::adjustStreak(sf::Vector2f enemyPos)
 	auto delta = end - start;
 	auto dist = Math::GetDistance(end, start);
 	delta /= dist;
-	/*streakVerts[0].position = { start.x, start.y};
-	streakVerts[1].position = { start.x, start.y};*/
 	if (delta.x < 1)
 		delta.x = 1;
 	if (delta.y < 2)
 		delta.y = 2;
+
 	streakVerts[0].position = { start.x - delta.x * 5.0f, start.y + delta.y * 5.0f };
 	streakVerts[1].position = { start.x + delta.x * 5.0f, start.y - delta.y * 5.0f };
 	streakVerts[2].position = { end.x + delta.x * 25.0f, end.y - delta.y * 25.0f };
@@ -80,13 +76,3 @@ void Entity::adjustStreak(sf::Vector2f enemyPos)
 	streakVerts[2].color = sf::Color::Green;
 	streakVerts[3].color = sf::Color::Green;
 }
-//
-//void Entity::setLength(float length)
-//{
-//	streak.setSize({ length, 25.0f });
-//}
-//
-//sf::RectangleShape* Entity::getStreak()
-//{
-//	return &streak;
-//}
