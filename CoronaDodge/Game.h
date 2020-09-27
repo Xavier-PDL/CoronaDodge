@@ -22,12 +22,12 @@ class Game
 	sf::Font someFont;
 	sf::Text textLost;
 	World world;
+
 	int score = 0;
 	int highScore;
 	float scoreCount = 3.f;
 	sf::Text textScore;
 	sf::Font fontScore;
-
 
 public:
 	Game();

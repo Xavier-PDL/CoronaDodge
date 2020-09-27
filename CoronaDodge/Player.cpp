@@ -1,6 +1,8 @@
 #include "Player.h"
 
 Player::Player()
+	:
+	Entity(EntType::ET_Player)
 {
 	playerSpray.setPointCount(3);
 	playerSpray.setPoint(0, { 0, 0 });

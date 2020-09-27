@@ -51,6 +51,28 @@ void Game::loadFonts() {
 	textLost.setOrigin({ textLocalBounds.width / 2, textLocalBounds.height / 2 });
 	textLost.setPosition({ (float)wSize.x / 2, (float)wSize.y / 4 });
 	textLost.setFillColor(sf::Color::Green);
+
+	textLost.setOutlineColor(sf::Color::Black);
+	textLost.setOutlineThickness(4.0f);
+
+	// item textures
+
+	// sounds??
+
+	world.setWindow(&wnd);
+	world.init();
+
+
+	quad = sf::VertexArray(sf::Quads, 4);
+	quad[0].position = { 0, 0 };
+	quad[1].position = { 15, 0 };
+	quad[2].position = { 15, 50 };
+	quad[3].position = { 0, 50 };
+	quad[0].color = sf::Color::Black;
+	quad[1].color = sf::Color::Black;
+	quad[2].color = sf::Color::Black;
+	quad[3].color = sf::Color::Black;
+
 }
 
 void Game::run()
@@ -115,12 +137,16 @@ void Game::update(sf::Time dt)
 		updateScore(dt);
 		world.update(dt);
 	}
+
 	else {
 		if (score > highScore) {
 			highScore = score;
 			writeHighScore();
 		}
 	}
+
+
+
 	// world.update(dt);
 	//updateAudio?
 	
@@ -129,7 +155,7 @@ void Game::update(sf::Time dt)
 void Game::render(sf::RenderWindow& wnd)
 {
 	// ui
-	
+
 	world.draw();
 	auto player = world.getPlayer();
 	if (!player.isAlive()) {

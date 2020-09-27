@@ -31,6 +31,7 @@ void World::spawnEntity(sf::Time dt) {
 		float spawnX = cos(spawnAngle);
 		float spawnY = sin(spawnAngle);
 		sf::Vector2f entPos = { spawnX * 1200 + 600, spawnY * 900 + 450 };
+		//sf::Vector2f entPos = { spawnX * 800 + 600, spawnY * 600 + 450 };
 
 		sf::Vector2f velocity;
 		if (covCount == 0)
@@ -47,8 +48,19 @@ void World::spawnEntity(sf::Time dt) {
 				covCount = 0;
 		}
 		velocity /= sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
-		entities.createEntity(EntType::ET_Enemy, entPos, velocity * 0.1f);
-		spawnVal = (float)((rand() % 1 + 5) / 10.);
+
+
+		EntityData enemyData;
+		enemyData.entityPos = entPos;
+		enemyData.velocity = velocity * 0.1f;
+		auto pEnemy = entities.createEntity(EntType::ET_Enemy, enemyData);
+		EntityData streakData;
+		streakData.entityPos = entPos;
+		streakData.pEnt = pEnemy;
+		entities.createEntity(EntType::ET_Streak, streakData);
+
+
+		spawnVal = (float)((rand() % 50 + 5) / 10.);
 	}
 	else 
 	{
@@ -81,11 +93,15 @@ void World::updatePlayer()
 {
 	auto mousePosI = sf::Mouse::getPosition(*pWnd);
 	sf::Vector2f mousePos = { (float)mousePosI.x, (float)mousePosI.y };
-	auto wSize = pWnd->getSize();
-	sf::Vector2f wCenter = { (float)wSize.x / 2, (float)wSize.y / 2 };
-	auto dp = mousePos - wCenter;
-
-	auto sprayAngle = (atan2f(dp.y, dp.x) * 180.0f / 3.14f) + 90.0f;
+	auto playerBox = player.getLocalBounds();
+	auto playerPos = player.getPosition();
+	sf::Vector2f playerCenter = { 
+		playerPos.x - playerBox.width / 2, 
+		playerPos.y - playerBox.height / 2 };
+	/*sf::Vector2f wCenter = { (float)wSize.x / 2, (float)wSize.y / 2 };*/
+	/*auto dp = mousePos - playerCenter;
+	auto sprayAngle = (atan2f(dp.y, dp.x) * 180.0f / 3.14f) + 90.0f;*/
+	auto sprayAngle = Math::CalcAngle(mousePos, playerCenter);
 	player.updateSpray(sprayAngle);
 }
 
@@ -101,8 +117,8 @@ void World::draw()
 	auto wSize = pWnd->getSize();
 	arena.setPosition(float(wSize.x / 2), float(wSize.y / 2));
 	pWnd->draw(arena);
-	player.draw(*pWnd);
 	entities.draw(*pWnd);
+	player.draw(*pWnd);
 }
 
 void World::update(sf::Time dt)
