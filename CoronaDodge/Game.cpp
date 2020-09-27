@@ -15,7 +15,8 @@ void Game::load()
 
 	// entity textures
 	texMan->addTexture(TexID::Enemy, TexFile::Enemy);
-	texMan->addTexture(TexID::PlayerNorth, TexFile::PlayerWest);
+	texMan->addTexture(TexID::PlayerNorth, TexFile::PlayerNorth);
+	texMan->addTexture(TexID::PlayerSouth, TexFile::PlayerSouth);
 	texMan->addTexture(TexID::PickupAmmo, TexFile::Ammo);
 	texMan->addTexture(TexID::AmmoIndicator, TexFile::AmmoIndicator);
 
@@ -153,8 +154,18 @@ void Game::handleInput(sf::Time dt)
 	if (gameState.top() == GS_Playing)
 	{
 		sf::Vector2f playerVel;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) playerVel.y -= moveSpeed;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) playerVel.y += moveSpeed;
+		Player& player = world.getPlayer();
+		auto texMan = TextureManager::Get();
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+		{
+			playerVel.y -= moveSpeed;
+			player.setTexture(texMan->getTexture(PlayerNorth));
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) 
+		{
+			playerVel.y += moveSpeed;
+			player.setTexture(texMan->getTexture(PlayerSouth));
+		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) playerVel.x -= moveSpeed;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) playerVel.x += moveSpeed;
 

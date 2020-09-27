@@ -30,7 +30,7 @@ public:
 	void spawnItem(sf::Time dt);
 	//EntityManager& getEntities();
 	void updatePlayerPos(sf::Vector2f deltaPos);
-	const Player& getPlayer();
+	Player& getPlayer();
 private:
 	void initPlayer();
 	void updatePlayer(sf::Time dt);

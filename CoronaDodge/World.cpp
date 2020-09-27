@@ -92,7 +92,7 @@ void World::updatePlayerPos(sf::Vector2f deltaPos)
 	player.update(deltaPos);
 }
 
-const Player& World::getPlayer()
+Player& World::getPlayer()
 {
 	return player;
 }
@@ -100,7 +100,7 @@ const Player& World::getPlayer()
 void World::initPlayer()
 {
 	auto texMan = TextureManager::Get();
-	player.setTexture(texMan->getTexture(TexID::PlayerNorth));
+	player.setTexture(texMan->getTexture(TexID::PlayerSouth));
 	//player.setColor(sf::Color::Blue);
 	auto pRect = player.getLocalBounds();
 	player.setOrigin(pRect.width / 2, pRect.height / 2);
