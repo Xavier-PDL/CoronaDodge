@@ -180,6 +180,11 @@ void Game::update(sf::Time dt)
 		fillSize.y /= 4;
 		ammoFill.setSize({ fillSize.x, fillSize.y * ammoCount });
 
+		if (player.getSprayStatus())
+		{
+			player.updateTimeToShoot(dt.asSeconds());
+		}
+
 		auto player = world.getPlayer();
 		if (!player.isAlive()) {
 			deathSound.play();

@@ -263,13 +263,30 @@ void Player::checkItems()
 	}
 }
 
-void Player::updateSpray(float sprayAngle)
+void Player::updateSpray(sf::Time dt, float sprayAngle)
 {
 	playerSpray.setRotation(sprayAngle);
+	if (timeTillNextShot > 0)
+	{
+		timeTillNextShot -= 1.0f * dt.asSeconds();
+		if (isSpraying && !timeTillNextShot)
+			isSpraying = false;
+	}
+	else
+	{
+		isSpraying = false;
+	}
 	if (sprayShots)
 	{
-		isSpraying = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-		
+		if (timeTillNextShot < 0)
+		{
+			isSpraying = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+			if (isSpraying)
+			{
+				sprayShots--;
+				timeTillNextShot = 0.5f;
+			}
+		}
 	}
 }
 
@@ -303,4 +320,14 @@ sf::ConvexShape& Player::getSpray()
 int Player::getAmmoCount()
 {
 	return sprayShots;
+}
+
+void Player::updateTimeToShoot(float dt)
+{
+
+}
+
+float Player::getTimeToShoot()
+{
+	return timeTillNextShot;
 }

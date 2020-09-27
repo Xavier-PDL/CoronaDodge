@@ -33,7 +33,7 @@ public:
 	const Player& getPlayer();
 private:
 	void initPlayer();
-	void updatePlayer();
+	void updatePlayer(sf::Time dt);
 	void updateEntities(sf::Time dt);
 };
 

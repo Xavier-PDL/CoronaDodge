@@ -102,6 +102,7 @@ void EntityManager::clear()
 {
 	enemies.clear();
 	streaks.clear();
+	pickups.clear();
 }
 
 LinkedList<Entity>& EntityManager::getStreaks()

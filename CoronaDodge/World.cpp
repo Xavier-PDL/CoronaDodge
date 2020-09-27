@@ -108,7 +108,7 @@ void World::initPlayer()
 	player.setPosition(float(wSize.x / 2), float(wSize.y / 2));
 }
 
-void World::updatePlayer()
+void World::updatePlayer(sf::Time dt)
 {
 	auto mousePosI = sf::Mouse::getPosition(*pWnd);
 	sf::Vector2f mousePos = { (float)mousePosI.x, (float)mousePosI.y };
@@ -118,7 +118,7 @@ void World::updatePlayer()
 		playerPos.x - playerBox.width / 2, 
 		playerPos.y - playerBox.height / 2 };
 	auto sprayAngle = Math::CalcAngle(mousePos, playerCenter);
-	player.updateSpray(sprayAngle);
+	player.updateSpray(dt, sprayAngle);
 }
 
 int bOnce = false;
@@ -140,7 +140,7 @@ void World::draw()
 
 void World::update(sf::Time dt)
 {
-	updatePlayer();
+	updatePlayer(dt);
 	updateEntities(dt);
 }
 
