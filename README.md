@@ -22,9 +22,9 @@ Working on two different projects (a game and a webpage) simultaneously and dele
 We learned a lot of important skills in html and css, and also in c++, where we learned a lot about using libraries (SFML and boost). We also strengthened our team-working skills.
 What’s next for Rona Rumble!
 
-[RonaRumble Website Git](https://github.com/Danni-Qu/ronarumble)
-[Youtube Website(Explanation]  ( https://drive.google.com/file/d/1uOBaYTZGDRpcVmG4kmFMmONRkAF-tYvE/view)
-[Youtube Website(Walkthrough)] https://www.youtube.com/watch?v=iyEEoX1UZGU
+- [RonaRumble Website Git](https://github.com/Danni-Qu/ronarumble)
+- [Youtube Website(Explanation)](https://drive.google.com/file/d/1uOBaYTZGDRpcVmG4kmFMmONRkAF-tYvE/view)
+- [Youtube Website(Video Demo)](https://www.youtube.com/watch?v=iyEEoX1UZGU)
 
    
 
